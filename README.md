@@ -54,13 +54,13 @@
 <div id="5"></div>
 
 ## 개발 팀 소개
-
+https://avatars.githubusercontent.com/u/137133526?v=4
 
 <table>
   <tr>
     <td align="center" width="150px">
       <a href="https://github.com/chorongfire33" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/81272766?v=4" alt="이민영 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/137133526?v=4" alt="이민영 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
