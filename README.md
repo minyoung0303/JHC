@@ -65,12 +65,12 @@
     </td>
     <td align="center" width="150px">
       <a href="https://github.com/kimjiho2532" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/137133359?v=4" alt="김지호 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/55077828?v=4" alt="김지호 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="https://github.com/romoney" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/137134077?v=4" alt="박성원 프로필" />
+      <a href="https://github.com/" target="_blank">
+        <img src="" alt="박성원 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
