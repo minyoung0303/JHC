@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "carrot_app",
+    "django.contrib.humanize",
 ]
 
 MIDDLEWARE = [

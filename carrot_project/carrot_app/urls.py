@@ -1,14 +1,25 @@
 from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
 from . import views
+from .views import set_region_certification
+from django.contrib.auth import views as auth_views
 
 
 app_name = "dangun_app"
 urlpatterns = [
     # 나머지 URL 패턴들을 추가
-    path("login/", LoginView.as_view(template_name="registration/login.html"), name="login"),
-    path("logout/", LogoutView.as_view(next_page="board_client"), name="logout"),
     path("", views.main, name="main"),
+    path("login/", views.custom_login, name="login"),
+    path("logout/", auth_views.LogoutView.as_view(next_page="dangun_app:main"), name="logout"),
+    path("register/", views.register, name="register"),
+    path("trade/", views.trade, name="trade"),
+    path("trade/", views.trade, name="trade"),
+    path("trade_post/<int:pk>/", views.trade_post, name="trade_post"),
+    path("write/", views.write, name="write"),
+    path("edit/<int:id>/", views.edit, name="edit"),
+    path("create_form/", views.create_post, name="create_form"),
+    path("location/", views.location, name="location"),
+    path("set_region/", views.set_region, name="set_region"),
+    path("set_region_certification/", set_region_certification, name="set_region_certification"),
     path("search/", views.search, name="search"),
-    path('register/', views.register, name='register'),
+    path("chat/", views.chat_view, name="chat"),
 ]
