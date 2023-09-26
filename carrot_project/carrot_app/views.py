@@ -35,11 +35,25 @@ def main(request):
     return render(request, "dangun_app/main.html", {"posts": top_views_posts})
 
 
-# Alert용 화면
-def alert(request, alert_message):
-    return render(request, "dangun_app/alert.html", {"alert_message": alert_message})
+def alert(request, alert_type):
+    # alert_type에 따라 다른 템플릿 선택
+    if alert_type == "login":
+        template_name = "dangun_app/alert_login.html"
+        alert_message = "로그인해주세요!"
+    elif alert_type == 'region':
+        template_name = "dangun_app/alert_region.html"
+        alert_message = "동네인증해주세요!"
+    elif alert_type == "userProfile":
+        template_name = "dangun_app/alert_userProfile.html"
+        alert_message = "사용자정보가 없어요!"
+    else:
+        # 기본 템플릿 또는 오류 처리
+        template_name = "dangun_app/alert_region.html"
+        alert_message = "알 수 없는 알림 유형입니다."
 
-
+    context = {  # alert_message를 컨텍스트에 추가
+    }
+    return render(request, template_name)
 # 테스트용 화면
 def test(request):
     return render(request, "dangun_app/test.html")
@@ -86,9 +100,9 @@ def write(request):
         if user_profile.region_certification == "Y":
             return render(request, "dangun_app/write.html")
         else:
-            return redirect("dangun_app:alert", alert_message="동네인증이 필요합니다.")
+            return redirect("dangun_app:alert", alert_type="region")
     except UserProfile.DoesNotExist:
-        return redirect("dangun_app:alert", alert_message="동네인증이 필요합니다.")
+        return redirect("dangun_app:alert", alert_type="userProfile")
 
 
 # 거래글수정 화면
@@ -112,7 +126,15 @@ def edit(request, id):
 # 채팅 화면
 @login_required
 def chat_view(request):
-    return render(request, "dangun_app/chat.html")
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+
+        if user_profile.region_certification == "Y":
+            return render(request, "dangun_app/chat.html")
+        else:
+            return redirect("dangun_app:alert", alert_type="region")
+    except UserProfile.DoesNotExist:
+        return redirect("dangun_app:alert", alert_type="userProfile")
 
 
 # 동네인증 화면
