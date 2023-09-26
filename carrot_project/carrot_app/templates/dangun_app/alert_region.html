@@ -1,0 +1,19 @@
+{% extends "dangun_app/alert_base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="content-box section1">
+    <div class="container between flex-box">
+      <div class="main-box flex-box column">
+        <h1>당신의 동네는<br>어떤곳인가요??</h1>
+        <h4>"동네인증"을 먼저 해주세요!</h4>
+        <div class="flex-box gap16">
+          <a href="/location">
+            <button class="flex-box gap8">동네인증하러가기</button>
+          </a>
+        </div>
+      </div>
+      <img src="{% static 'img/character.png' %}" alt="" />
+    </div>
+  </div>
+  {% endblock %}
