@@ -1,0 +1,22 @@
+{% load static %}{% load humanize %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>당근</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
+</head>
+
+<body>
+  {% include 'dangun_app/nav.html' %}
+
+  {% block content %}
+  {% endblock %}
+
+  {% include 'dangun_app/footer.html' %}
+</body>
+</html>
