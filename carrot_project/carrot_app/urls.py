@@ -8,7 +8,7 @@ app_name = "dangun_app"
 
 urlpatterns = [
     path("test/", views.test, name="test"),
-    path("alert/<str:alert_message>/", views.alert, name="alert"),
+    path("alert/<str:alert_type>", views.alert, name="alert"),
     path("", views.main, name="main"),
     path("login/", views.custom_login, name="login"),
     path("logout/", auth_views.LogoutView.as_view(next_page="dangun_app:main"), name="logout"),
