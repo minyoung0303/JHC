@@ -20,9 +20,9 @@
         <h1>당신 근처의<br>지역 생활 커뮤니티</h1>
         <h4>동네라서 가능한 모든것<br>당근에서 가까운 이웃과 함께해요.</h4>
         <div class="flex-box gap16">
-          <button class="flex-box gap8">
+          <button class="flex-box gap8" id="googlePlayButton">
             <img src="{% static 'img/icon_googleplay.png' %}" alt="" />Google Play</button>
-          <button class="flex-box gap8">
+          <button class="flex-box gap8" id="appStoreButton">
             <img src="{% static 'img/icon_appstore.png' %}" alt="" />App Store</button>
         </div>
       </div>
@@ -116,6 +116,8 @@
   </div>
   {% include 'dangun_app/footer.html' %}
 
-</body>
+  <script src="{% static 'js/download.js' %}"></script>
+  <script src="{% static 'js/download_footer.js' %}"></script>
 
+</body>
 </html>
