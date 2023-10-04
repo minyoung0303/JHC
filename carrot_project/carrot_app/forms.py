@@ -37,7 +37,13 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'price', 'description', 'location', 'images']
 
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['nickname', 'email', 'birthdate', 'gender', 'profile_picture']
+        fields = ['nickname', 'email', 'birthdate', 'gender', 'profile_picture', 'region']
+
+    def clean_birthdate(self):
+        birthdate = self.cleaned_data['birthdate']
+        # birthdate 유효성 검사 또는 추가 로직을 여기에 추가할 수 있습니다.
+        return birthdate
