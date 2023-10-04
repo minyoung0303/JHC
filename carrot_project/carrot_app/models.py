@@ -33,8 +33,8 @@ class Post(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     nickname = models.CharField(max_length=100, default="Guest")
-    email = models.EmailField()
-    birthdate = models.DateField()
+    email = models.EmailField(default="example@oruemi.com")
+    birthdate = models.DateField(null=True)
     gender = models.CharField(
         max_length=1, choices=[("M", "Male"), ("F", "Female"), ("O", "Other")], default="O"
     )

@@ -14,14 +14,20 @@
 </head>
 <body>
     {% include 'dangun_app/nav.html' %}
-    <h1>프로필 등록</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ userprofile_form.as_p }}
+    <div class="container">
+        {% block content %}
+          <h1>프로필 정보 수정</h1>
+        
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ userprofile_form.as_p }}
+        
+            <button type="submit">프로필 저장</button>
+          </form>
+        {% endblock %}
+    </div>
 
-        <button type="submit">프로필 등록</button>
-    </form>
     {% include 'dangun_app/footer.html' %}
 </body>
 </html>

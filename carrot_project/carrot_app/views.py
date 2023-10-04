@@ -124,55 +124,56 @@ def edit(request, id):
     return render(request, "dangun_app/write.html", {"post": post})
 
 
-def userprofile(request, user_id):
-    user = get_object_or_404(User, username=user_id)
-    id = user.id
-    userprofile = get_object_or_404(UserProfile, user_id=id)
-
-    # 로그인한 사용자인 경우
-    if request.user.is_authenticated:
-        # 자기 자신의 프로필 페이지인 경우 또는 공개 프로필인 경우
-        if request.user == userprofile.user or userprofile.public_profile:
-            if request.method == "POST":
-                # 프로필 정보 수정 폼을 제출한 경우
-                userprofile_form = UserProfileForm(
-                    request.POST, request.FILES, instance=userprofile
-                )
-                if userprofile_form.is_valid():
-                    userprofile_form.save()
-                    return render(
-                        request, "dangun_app/userprofile.html", {"userprofile": userprofile}
-                    )
-            else:
-                # POST 요청이 아닌 경우 또는 프로필 정보 수정 폼 보기
-                userprofile_form = UserProfileForm(instance=userprofile)
-            return render(
-                request,
-                "dangun_app/userprofile.html",
-                {"userprofile": userprofile, "userprofile_form": userprofile_form},
-            )
-
-    # 로그인하지 않은 사용자 또는 공개 프로필이 아닌 경우
-    return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile})
-
-
 # def userprofile(request, user_id):
 #     user = get_object_or_404(User, username=user_id)
 #     id = user.id
 #     userprofile = get_object_or_404(UserProfile, user_id=id)
 
-#     context = {
-#     "userprofile": userprofile,
-#     }
-
+#     # 로그인한 사용자인 경우
 #     if request.user.is_authenticated:
-#         if request.user == userprofile.user and userprofile.user_certification == "N":
-#             return render(request, "dangun_app/regist_userprofile.html")
+#         # 자기 자신의 프로필 페이지인 경우 또는 공개 프로필인 경우
+#         if request.user == userprofile.user or userprofile.public_profile:
+#             if request.method == "POST":
+#                 # 프로필 정보 수정 폼을 제출한 경우
+#                 userprofile_form = UserProfileForm(
+#                     request.POST, request.FILES, instance=userprofile
+#                 )
+#                 if userprofile_form.is_valid():
+#                     userprofile_form.save()
+#                     return render(
+#                         request, "dangun_app/userprofile.html", {"userprofile": userprofile}
+#                     )
+#             else:
+#                 # POST 요청이 아닌 경우 또는 프로필 정보 수정 폼 보기
+#                 userprofile_form = UserProfileForm(instance=userprofile)
+#             return render(
+#                 request,
+#                 "dangun_app/userprofile.html",
+#                 {"userprofile": userprofile, "userprofile_form": userprofile_form},
+#             )
 
-#         else:
-#             return render(request, "dangun_app/userprofile.html", context)
-#     else:
-#         return render(request, "dangun_app/userprofile.html", context)
+#     # 로그인하지 않은 사용자 또는 공개 프로필이 아닌 경우
+#     return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile})
+
+
+def userprofile(request, user_id):
+    user = get_object_or_404(User, username=user_id)
+    id = user.id
+    userprofile = get_object_or_404(UserProfile, user_id=id)
+
+    context = {
+        "userprofile": userprofile,
+    }
+    
+    # 로그인한 사용자인 경우
+    if request.user.is_authenticated:
+        if request.user == userprofile.user and userprofile.user_certification == "N":
+            return render(request, "dangun_app/regist_userprofile.html")
+
+        else:
+            return render(request, "dangun_app/userprofile.html", context)
+    else:
+        return render(request, "dangun_app/userprofile.html", context)
 
 
 # 채팅 화면
