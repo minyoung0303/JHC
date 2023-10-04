@@ -61,7 +61,7 @@ def test(request):
 
 # 중고거래 화면
 def trade(request):
-    top_views_posts = Post.objects.filter(product_sold="N").order_by("-view_num")
+    top_views_posts = Post.objects.filter(product_sold="N").order_by("-modified_at")
     return render(request, "dangun_app/trade.html", {"posts": top_views_posts})
 
 
@@ -291,4 +291,4 @@ def bring_to_top(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.modified_at = datetime.now(timezone.utc)
     post.save()
-    return redirect("post_detail", post_id=post_id)
+    return redirect("dangun_app:trade")
