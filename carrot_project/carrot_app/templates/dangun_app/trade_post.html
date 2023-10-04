@@ -29,7 +29,20 @@
     <div class="container column">
       <div class="post-box">
         {% block content %}
-        <img src="{{ post.images.url }}" alt="{{ post.title }}" class="block-box">
+        {% comment %} <img src="{{ post.images.url }}" alt="{{ post.title }}" class="block-box"> {% endcomment %}
+        <!-- 슬라이드쇼 컨테이너 -->
+        <div class="slideshow-container">
+          {% for image in post.images.all %}
+          <div class="mySlides fade">
+            <img src="{{ image.image.url }}" alt="{{ post.title }}">
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- 슬라이드쇼 이전/다음 버튼 -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        
         <div class="flex-box between info-button-box">
           <div class="user-info">
             <a href="{% url 'dangun_app:userprofile' post.user_id %}" class="profile-picture">
@@ -163,7 +176,29 @@
           alert(`끌어올리기까지 ${hours}시간 ${minutes}분 ${seconds}초 남았습니다.`);
         }
   });
-  
+  let slideIndex = 1;
+
+  function plusSlides(n) {
+    showSlides((slideIndex += n));
+  }
+
+  function showSlides(n) {
+    let i;
+    const slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slides[slideIndex - 1].style.display = "block";
+  }
+
+  // 슬라이드쇼를 초기화합니다.
+  showSlides(slideIndex);
   
 });
 
