@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -40,7 +39,7 @@ def alert(request, alert_type):
     if alert_type == "login":
         template_name = "dangun_app/alert_login.html"
         alert_message = "로그인해주세요!"
-    elif alert_type == 'region':
+    elif alert_type == "region":
         template_name = "dangun_app/alert_region.html"
         alert_message = "동네인증해주세요!"
     elif alert_type == "userProfile":
@@ -51,9 +50,10 @@ def alert(request, alert_type):
         template_name = "dangun_app/alert_region.html"
         alert_message = "알 수 없는 알림 유형입니다."
 
-    context = {  # alert_message를 컨텍스트에 추가
-    }
+    context = {}  # alert_message를 컨텍스트에 추가
     return render(request, template_name)
+
+
 # 테스트용 화면
 def test(request):
     return render(request, "dangun_app/test.html")
@@ -281,3 +281,14 @@ def delete_post(request, post_id):
     except Post.DoesNotExist:
         # 포스트가 존재하지 않는 경우에 대한 처리
         return JsonResponse({"message": "포스트가 존재하지 않습니다."}, status=404)  # 404 Not Found 상태 코드 반환
+
+
+# 오래된 게시글 끌어올리기 기능
+from datetime import datetime, timezone
+
+
+def bring_to_top(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    post.modified_at = datetime.now(timezone.utc)
+    post.save()
+    return redirect("post_detail", post_id=post_id)
