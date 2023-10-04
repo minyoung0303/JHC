@@ -48,6 +48,7 @@
             </a>
             <button class="grey" id="delete-post">삭제하기</button>
             <button class="orange">채팅보기</button>
+            <button class="orange" id="re-upload">끌어올리기</button>
           </div>
           {% else %}
           <div class="button-box">
@@ -80,39 +81,39 @@
 
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const deleteButton = document.getElementById("delete-post");
-      
-      // 삭제 버튼을 클릭할 때
-      deleteButton.addEventListener("click", function() {
-        if (confirm("{{ post.title }} 물품을 삭제하시겠습니까?")) {
-          // 확인을 눌렀을 때만 삭제 요청을 보냅니다.
-          const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
-    
-          // AJAX 요청을 보냅니다.
-          fetch("{% url 'dangun_app:delete_post' post.id %}", {
-            method: "DELETE",
-            headers: {
-              "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
-            },
+  document.addEventListener("DOMContentLoaded", function () {
+    const deleteButton = document.getElementById("delete-post");
+
+    // 삭제 버튼을 클릭할 때
+    deleteButton.addEventListener("click", function () {
+      if (confirm("{{ post.title }} 물품을 삭제하시겠습니까?")) {
+        // 확인을 눌렀을 때만 삭제 요청을 보냅니다.
+        const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
+
+        // AJAX 요청을 보냅니다.
+        fetch("{% url 'dangun_app:delete_post' post.id %}", {
+          method: "DELETE",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
+          },
+        })
+          .then(response => {
+            if (response.ok) {
+              // 성공적으로 삭제되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
+              alert("{{ post.title }} 물품이 삭제되었습니다.");
+              window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
+            } else {
+              // 실패한 경우에 대한 처리
+              alert("포스트 삭제에 실패했습니다.");
+            }
           })
-            .then(response => {
-              if (response.ok) {
-                // 성공적으로 삭제되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
-                alert("{{ post.title }} 물품이 삭제되었습니다.");
-                window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
-              } else {
-                // 실패한 경우에 대한 처리
-                alert("포스트 삭제에 실패했습니다.");
-              }
-            })
-            .catch(error => {
-              console.error("Error:", error);
-            });
-        }
-      });
+          .catch(error => {
+            console.error("Error:", error);
+          });
+      }
     });
-    
+  });
+
 </script>
 
 </html>

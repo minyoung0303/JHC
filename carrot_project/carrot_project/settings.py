@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     "carrot_app",
     "django.contrib.humanize",
     "storages",
-
 ]
 
 MIDDLEWARE = [
@@ -95,20 +94,21 @@ WSGI_APPLICATION = "carrot_project.wsgi.application"
 
 # AWS S3 관련 셋팅
 
-AWS_REGION = 'ap-northeast-2'
+AWS_REGION = "ap-northeast-2"
 AWS_STORAGE_BUCKET_NAME = get_secret("BUCKET_NAME")
 AWS_ACCESS_KEY_ID = get_secret("ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = get_secret("SECRET_ACCESS_KEY")
 
+
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
-print(AWS_S3_CUSTOM_DOMAIN)
+
 # Static Setting
 STATIC_URL = "http://%s/static/" % AWS_S3_CUSTOM_DOMAIN
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # Media Setting
 MEDIA_URL = "http://%s/media/" % AWS_S3_CUSTOM_DOMAIN
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
 # Database
@@ -167,4 +167,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = '/login/'
+LOGIN_URL = "/login/"
+
+TIME_ZONE = "Asia/Seoul"  # 원하는 시간대로 변경 가능
