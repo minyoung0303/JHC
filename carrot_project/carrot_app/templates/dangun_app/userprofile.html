@@ -14,7 +14,25 @@
 </head>
 <body>
     {% include 'dangun_app/nav.html' %}
+    {% block content %}
+    <div class="content-box">
+        <div class="container column">
+            <h1>프로필 정보</h1>
 
+            <!-- 여기에 프로필 정보를 표시하는 HTML 코드를 추가하세요 -->
+            <p><strong>닉네임:</strong> {{ userprofile.nickname }}</p>
+            <p><strong>이메일:</strong> {{ userprofile.email }}</p>
+            <p><strong>생년월일:</strong> {{ userprofile.birthdate }}</p>
+            <p><strong>성별:</strong> {{ userprofile.get_gender_display }}</p>
+            <p><strong>프로필 사진:</strong> <img src="#"></p>
+            <p><strong>지역:</strong> {{ userprofile.region }}</p>
+
+            <a href="#">프로필 수정</a>
+        </div>  
+    </div>
+    {% endblock %}
     {% include 'dangun_app/footer.html' %}
 </body>
 </html>
+
+<!-- {{ userprofile.profile_picture.url }}" alt="{{ userprofile.nickname }}" width="150 -->
