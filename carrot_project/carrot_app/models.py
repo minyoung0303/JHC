@@ -2,12 +2,17 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 
+
+class Image(models.Model):
+    image = models.ImageField(upload_to="post_images/")
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     price = models.IntegerField()
     description = models.TextField()
     location = models.CharField(max_length=100)
-    images = models.ImageField(upload_to="post_images/")
+    images = models.ManyToManyField(Image)  # 다중 이미지 관계 설정
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, to_field="username")
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -26,20 +31,15 @@ class Post(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="profile"
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     nickname = models.CharField(max_length=100, default="Guest")
     email = models.EmailField(default="example@oruemi.com")
     birthdate = models.DateField(null=True)
     gender = models.CharField(
-        max_length=1,
-        choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')],
-        default='O'
+        max_length=1, choices=[("M", "Male"), ("F", "Female"), ("O", "Other")], default="O"
     )
     profile_picture = models.ImageField(
-        upload_to='profile_pictures/',
-        default='default_profile_picture.png'  # 기본 프로필 사진 경로
+        upload_to="profile_pictures/", default="default_profile_picture.png"  # 기본 프로필 사진 경로
     )
     region = models.CharField(max_length=100, null=True)
     region_certification = models.CharField(max_length=1, default="N")
@@ -48,6 +48,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
 
 class MannerTemperature(models.Model):
     user = models.OneToOneField(
@@ -66,6 +67,7 @@ class MannerTemperature(models.Model):
         self.total_votes += 1
         self.total_score += score
         self.save()
+
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
