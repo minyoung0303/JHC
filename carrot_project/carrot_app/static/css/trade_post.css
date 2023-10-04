@@ -36,12 +36,12 @@ h3{
 
 .user-info{
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    align-content: center;
 }
 
 .user-info p{
     opacity: 0.5;
+    margin: 1px;
 }
 
 .button-box{
@@ -86,3 +86,4 @@ hr{
     opacity: 0.5;
     margin-top: 40px;
 }
+

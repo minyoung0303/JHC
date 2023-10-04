@@ -99,7 +99,8 @@ AWS_STORAGE_BUCKET_NAME = get_secret("BUCKET_NAME")
 AWS_ACCESS_KEY_ID = get_secret("ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = get_secret("SECRET_ACCESS_KEY")
 
-AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
 
 # Static Setting
 STATIC_URL = "http://%s/static/" % AWS_S3_CUSTOM_DOMAIN

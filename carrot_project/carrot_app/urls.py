@@ -24,5 +24,6 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("chat/", views.chat_view, name="chat"),
     path("delete_post/<int:post_id>/", views.delete_post, name="delete_post"),
+    path("userprofile/<str:user_id>", views.userprofile, name="userprofile"),
     path("pin_post/<int:post_id>/", bring_to_top, name="bring_to_top"),
 ]
