@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 
-
 class Post(models.Model):
     title = models.CharField(max_length=200)
     price = models.IntegerField()
@@ -31,8 +30,8 @@ class UserProfile(models.Model):
         User, on_delete=models.CASCADE, related_name="profile"
     )
     nickname = models.CharField(max_length=100, default="Guest")
-    email = models.EmailField()
-    birthdate = models.DateField()
+    email = models.EmailField(default="example@oruemi.com")
+    birthdate = models.DateField(null=True)
     gender = models.CharField(
         max_length=1,
         choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')],
