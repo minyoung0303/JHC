@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q
 
-from .models import Post, UserProfile
+from .models import Post, UserProfile, UserProfile
 
 from .forms import CustomLoginForm, CustomRegistrationForm, PostForm
 
@@ -122,6 +122,22 @@ def edit(request, id):
 
     return render(request, "dangun_app/write.html", {"post": post})
 
+
+def userprofile(request, id):
+    userprofile = get_object_or_404(UserProfile, user_id=id)
+    
+    context = {
+    "userprofile": userprofile,
+    }
+
+    if request.user.is_authenticated:
+        if request.user == userprofile.user and userprofile.user_certification == "N":
+            return render(request, "dangun_app/regist_userprofile.html")
+        
+        else:
+            return render(request, "dangun_app/userprofile.html")
+    else:
+        return render(request, "dangun_app/userprofile.html", context)
 
 # 채팅 화면
 @login_required

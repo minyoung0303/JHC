@@ -24,4 +24,5 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("chat/", views.chat_view, name="chat"),
     path("delete_post/<int:post_id>/", views.delete_post, name="delete_post"),
+    path("userprofile/<str:username>", views.userprofile, name="userprofile"),
 ]
