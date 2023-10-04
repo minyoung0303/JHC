@@ -1,0 +1,33 @@
+{% load static%}{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade_post.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% include 'dangun_app/nav.html' %}
+
+    <div class="container">
+        {% block content %}
+          <h1>프로필 정보 수정</h1>
+        
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ userprofile_form.as_p }}
+        
+            <button type="submit">프로필 저장</button>
+          </form>
+        {% endblock %}
+    </div>
+
+    {% include 'dangun_app/footer.html' %}
+</body>
+</html>
