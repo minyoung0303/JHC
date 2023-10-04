@@ -28,14 +28,45 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile"
+        User, on_delete=models.CASCADE, related_name="profile"
+    )
+    nickname = models.CharField(max_length=100, default="Guest")
+    email = models.EmailField()
+    birthdate = models.DateField()
+    gender = models.CharField(
+        max_length=1,
+        choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')],
+        default='O'
+    )
+    profile_picture = models.ImageField(
+        upload_to='profile_pictures/',
+        default='default_profile_picture.png'  # 기본 프로필 사진 경로
     )
     region = models.CharField(max_length=100, null=True)
     region_certification = models.CharField(max_length=1, default="N")
 
+    user_certification = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.user.username} Profile"
 
+class MannerTemperature(models.Model):
+    user = models.OneToOneField(
+        UserProfile, on_delete=models.CASCADE, related_name="manner_temperature"
+    )
+    total_votes = models.PositiveIntegerField(default=0)  # 전체 투표 수
+    total_score = models.PositiveIntegerField(default=0)  # 전체 점수 합
+
+    def average_temperature(self):
+        if self.total_votes > 0:
+            return self.total_score / self.total_votes
+        else:
+            return 0
+
+    def update_temperature(self, score):
+        self.total_votes += 1
+        self.total_score += score
+        self.save()
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, UserProfile
 
 
 class CustomLoginForm(forms.Form):
@@ -36,3 +36,8 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'price', 'description', 'location', 'images']
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nickname', 'email', 'birthdate', 'gender', 'profile_picture']
