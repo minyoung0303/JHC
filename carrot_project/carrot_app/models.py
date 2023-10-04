@@ -68,6 +68,35 @@ class MannerTemperature(models.Model):
         self.total_score += score
         self.save()
 
+class ChatRoom(models.Model):
+    room_number = models.AutoField(primary_key=True)
+    starter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='started_chats')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_chats')
+    created_at = models.DateTimeField(auto_now_add=True)
+    latest_message_time = models.DateTimeField(null=True, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='chat_rooms', null=True, blank=True)
+
+
+    def __str__(self):
+        return f'ChatRoom: {self.starter.username} and {self.receiver.username}'
+
+class Message(models.Model):
+    chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='messages')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authored_messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Message: {self.author.username} at {self.timestamp}'
+
+    class Meta:
+        ordering = ['timestamp']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # 새 메시지가 저장될 때마다 chatroom의 latest_message_time을 업데이트
+        self.chatroom.latest_message_time = self.timestamp
+        self.chatroom.save()
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
