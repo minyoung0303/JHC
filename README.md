@@ -11,8 +11,6 @@
 ![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 ![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 ![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
-![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
-![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 
 
 </div>
@@ -123,8 +121,6 @@
 
 <div>
 
-![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
-![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 ![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 ![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 ![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
