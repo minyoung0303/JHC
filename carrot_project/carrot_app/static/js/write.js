@@ -1,11 +1,20 @@
-function previewImage(event) {
+function previewImages(event) {
   let reader = new FileReader();
-  reader.onload = function () {
-    let output = document.getElementById("imagePreview");
-    output.src = reader.result;
-    output.classList.add("img-upload-fit");
-  };
-  reader.readAsDataURL(event.target.files[0]);
+  const output = document.getElementById("imagePreview");
+  output.innerHTML = ""; // 이미지 미리보기를 초기화합니다.
+
+  for (let i = 0; i < event.target.files.length; i++) {
+    reader.onload = function () {
+      const img = document.createElement("img");
+      img.src = reader.result;
+      img.classList.add("img-upload-fit");
+
+      // 미리보기 이미지를 출력합니다.
+      output.appendChild(img);
+    };
+    
+    reader.readAsDataURL(event.target.files[i]);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function() {

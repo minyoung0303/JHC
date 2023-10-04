@@ -116,7 +116,8 @@ def edit(request, id):
         post.description = request.POST["description"]
         post.location = request.POST["location"]
         if "images" in request.FILES:
-            post.images = request.FILES["images"]
+            new_images = request.FILES.getlist("images")
+            post.images.set(new_images)  # 다대다 관계의 역방향 필드에 set() 메서드를 사용하여 업데이트합니다.
         post.save()
         return redirect("dangun_app:trade_post", pk=id)
 
@@ -128,26 +129,31 @@ def userprofile(request, user_id):
     id = user.id
     userprofile = get_object_or_404(UserProfile, user_id=id)
 
-
     # 로그인한 사용자인 경우
     if request.user.is_authenticated:
         # 자기 자신의 프로필 페이지인 경우 또는 공개 프로필인 경우
         if request.user == userprofile.user or userprofile.public_profile:
             if request.method == "POST":
                 # 프로필 정보 수정 폼을 제출한 경우
-                userprofile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+                userprofile_form = UserProfileForm(
+                    request.POST, request.FILES, instance=userprofile
+                )
                 if userprofile_form.is_valid():
                     userprofile_form.save()
-                    return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile})
+                    return render(
+                        request, "dangun_app/userprofile.html", {"userprofile": userprofile}
+                    )
             else:
                 # POST 요청이 아닌 경우 또는 프로필 정보 수정 폼 보기
                 userprofile_form = UserProfileForm(instance=userprofile)
-            return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile, "userprofile_form": userprofile_form})
-    
+            return render(
+                request,
+                "dangun_app/userprofile.html",
+                {"userprofile": userprofile, "userprofile_form": userprofile_form},
+            )
+
     # 로그인하지 않은 사용자 또는 공개 프로필이 아닌 경우
     return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile})
-
-
 
 
 # def userprofile(request, user_id):
@@ -162,11 +168,12 @@ def userprofile(request, user_id):
 #     if request.user.is_authenticated:
 #         if request.user == userprofile.user and userprofile.user_certification == "N":
 #             return render(request, "dangun_app/regist_userprofile.html")
-        
+
 #         else:
 #             return render(request, "dangun_app/userprofile.html", context)
 #     else:
 #         return render(request, "dangun_app/userprofile.html", context)
+
 
 # 채팅 화면
 @login_required
