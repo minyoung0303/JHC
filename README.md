@@ -1,6 +1,25 @@
-<div align="center">
-  ![logo](https://github.com/chorongfire33/JHC/assets/106378106/e47740d1-fe3e-47e8-a4dc-bbd84d032740)
+<div>
+  
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+
+
 </div>
+
+<br />
+<br />
+
 
 ## 목차
 
@@ -10,7 +29,6 @@
 3. [**기술 스택**](#3)
 4. [**서비스 화면**](#4)
 5. [**개발 팀 소개**](#5)
-6. [**협업**](#6)
    
 <br />
 
@@ -26,18 +44,18 @@
 
 ## 개발 기간
 
-2023.09.21(목) ~ 2023.10
+2023.09.21(목) ~ 2023.10.05(목)
 
 
 <br />
 
 <div id="3"></div>
 
-## 🛠 기술 스택
+## 기술 스택
 
-| <img src="https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg" alt="HTML5" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg" alt="CSS3" width="50px" height="50px" />  | <img src="https://profilinator.rishav.dev/skills-assets/javascript-original.svg" alt="JavaScript" width="50px" height="50px" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/django-original.svg" alt="Django" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/figma-icon.svg" alt="Figma" height="50" /> |
-|:-:|:-:|:-:|:-:|:-:|:-:|
-| HTML5  | CSS3 | Javascript | django | postgresql | Figma |
+| <img src="https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg" alt="HTML5" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg" alt="CSS3" width="50px" height="50px" />  | <img src="https://profilinator.rishav.dev/skills-assets/javascript-original.svg" alt="JavaScript" width="50px" height="50px" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/django-original.svg" alt="Django" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/figma-icon.svg" alt="Figma" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg" alt="AWS" height="50"  /> |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| HTML5  | CSS3 | Javascript | django | postgresql | Figma | AWS |
 
 <br />
 
@@ -53,8 +71,6 @@
 <div id="5"></div>
 
 ## 개발 팀 소개
-https://avatars.githubusercontent.com/u/137133526?v=4
-
 <table>
   <tr>
     <td align="center" width="150px">
@@ -68,8 +84,8 @@ https://avatars.githubusercontent.com/u/137133526?v=4
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="https://github.com/" target="_blank">
-        <img src="" alt="박성원 프로필" />
+      <a href="https://github.com/Woni1010011" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/103429169?v=4" alt="박성원 프로필" />
       </a>
     </td>
     <td align="center" width="150px">
@@ -90,7 +106,7 @@ https://avatars.githubusercontent.com/u/137133526?v=4
       </a>
     </td>
         <td align="center">
-      <a href="https://github.com/romoney" target="_blank">
+      <a href="https://github.com/Woni1010011" target="_blank">
         박성원
       </a>
     </td>
@@ -103,8 +119,22 @@ https://avatars.githubusercontent.com/u/137133526?v=4
 </table>
 
 <br />
+<br />
 
-<div id="6"></div>
+<div>
 
-## 협업
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
+![logo](https://github.com/chorongfire33/JHC/assets/106378106/60d44396-855c-4b42-8b58-20a91f1ef0dd)
 
+</div>
