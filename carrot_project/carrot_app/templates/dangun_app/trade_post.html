@@ -20,6 +20,44 @@
       overflow: hidden;
       margin-right: 10px;
   }
+  /* 슬라이드쇼 이전/다음 버튼 스타일링 */
+  .prev,
+  .next {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 36px; /* 버튼 아이콘 크기 조정 */
+    padding: 8px 16px; /* 버튼 패딩 조정 */
+    background-color: rgba(0, 0, 0, 0.3); /* 배경 색상 설정 */
+    color: white; /* 글자 색상 설정 */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.6); /* 호버 시 배경 색상 변경 */
+  }
+  
+  .prev {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  
+  .next {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  .slideshow-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+
+
   </style>
 </head>
 
@@ -32,16 +70,15 @@
         {% comment %} <img src="{{ post.images.url }}" alt="{{ post.title }}" class="block-box"> {% endcomment %}
         <!-- 슬라이드쇼 컨테이너 -->
         <div class="slideshow-container">
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
           {% for image in post.images.all %}
           <div class="mySlides fade">
             <img src="{{ image.image.url }}" alt="{{ post.title }}">
           </div>
           {% endfor %}
+          <!-- 슬라이드쇼 이전/다음 버튼 -->
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
-
-        <!-- 슬라이드쇼 이전/다음 버튼 -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
         
         <div class="flex-box between info-button-box">
           <div class="user-info">
@@ -106,6 +143,28 @@
 
 </body>
 <script>
+  let slideIndex = 1;
+
+  function plusSlides(n) {
+    showSlides((slideIndex += n));
+  }
+  function showSlides(n) {
+    let i;
+    const slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slides[slideIndex - 1].style.display = "block";
+  }
+
+  // 슬라이드쇼를 초기화합니다.
+  showSlides(slideIndex);
   document.addEventListener("DOMContentLoaded", function () {
     const deleteButton = document.getElementById("delete-post");
 
@@ -189,29 +248,6 @@
           alert(`끌어올리기까지 ${hours}시간 ${minutes}분 ${seconds}초 남았습니다.`);
         }
   });
-  let slideIndex = 1;
-
-  function plusSlides(n) {
-    showSlides((slideIndex += n));
-  }
-
-  function showSlides(n) {
-    let i;
-    const slides = document.getElementsByClassName("mySlides");
-    if (n > slides.length) {
-      slideIndex = 1;
-    }
-    if (n < 1) {
-      slideIndex = slides.length;
-    }
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    slides[slideIndex - 1].style.display = "block";
-  }
-
-  // 슬라이드쇼를 초기화합니다.
-  showSlides(slideIndex);
   
 });
 
