@@ -89,9 +89,9 @@
           <div class="card-box">
             <a href="{% url 'dangun_app:trade_post' post.pk %}" class="trade-text-link">
               <div class="card-img">
-                {% if post.images %}
-                <img src="{{ post.images.url }}" alt="{{ post.title }}">
-                {% endif %}
+                {% if post.images.first %}
+                      <img src="{{ post.images.first.image.url }}" alt="{{ post.title }}">
+                  {% endif %}
               </div>
               <div class="card-info-box">
                 <h5>{{ post.title }}</h5>
