@@ -25,7 +25,7 @@
                 <div class="flex-box">
                   <label class="img-upload">
                     <div class="image-slider">
-                      <img src="{% if post %}{{ post.images.first.url }}{% else %}{% static 'img/icon_photo.png' %}{% endif %}" alt="이미지 설명" id="imagePreview">
+                      <img src="{% if post %}{{ post.images.first.image.url }}{% else %}{% static 'img/icon_photo.png' %}{% endif %}" alt="이미지 설명" id="imagePreview">
                     </div>
                     
                     <input type="file" name="images" accept="image/*" multiple  style="display: none;" onchange="previewImage2(event);" value="사진추가하기">
