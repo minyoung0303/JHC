@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,45 +20,49 @@
       border-radius: 50%;
       overflow: hidden;
       margin-right: 10px;
-  }
-  /* 슬라이드쇼 이전/다음 버튼 스타일링 */
-  .prev,
-  .next {
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 36px; /* 버튼 아이콘 크기 조정 */
-    padding: 8px 16px; /* 버튼 패딩 조정 */
-    background-color: rgba(0, 0, 0, 0.3); /* 배경 색상 설정 */
-    color: white; /* 글자 색상 설정 */
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .prev:hover,
-  .next:hover {
-    background-color: rgba(0, 0, 0, 0.6); /* 호버 시 배경 색상 변경 */
-  }
-  
-  .prev {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-  }
-  
-  .next {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
-  .slideshow-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-  }
-  
+    }
 
+    /* 슬라이드쇼 이전/다음 버튼 스타일링 */
+    .prev,
+    .next {
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 36px;
+      /* 버튼 아이콘 크기 조정 */
+      padding: 8px 16px;
+      /* 버튼 패딩 조정 */
+      background-color: rgba(0, 0, 0, 0.3);
+      /* 배경 색상 설정 */
+      color: white;
+      /* 글자 색상 설정 */
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+      /* 호버 시 배경 색상 변경 */
+    }
+
+    .prev {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    .next {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    .slideshow-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+    }
   </style>
 </head>
 
@@ -79,23 +84,25 @@
           <!-- 슬라이드쇼 이전/다음 버튼 -->
           <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
-        
+
         <div class="flex-box between info-button-box">
           <div class="user-info">
             {% if post.user == request.user %}
-              <a href="{% url 'dangun_app:my_profile' %}" class="profile-picture">
-                  <img src="{% if user_profile %}{{ user_profile.profile_picture.url }}{% else %}{% static 'profile_pictures/default_profile_picture.png' %}{% endif %}">
-              </a>
+            <a href="{% url 'dangun_app:my_profile' %}" class="profile-picture">
+              <img
+                src="{% if user_profile %}{{ user_profile.profile_picture.url }}{% else %}{% static 'profile_pictures/default_profile_picture.png' %}{% endif %}">
+            </a>
             {% else %}
-              <a href="{% url 'dangun_app:view_profile' post.user_id %}" class="profile-picture">
-                  <img src="{% if user_profile %}{{ user_profile.profile_picture.url }}{% else %}{% static 'profile_pictures/default_profile_picture.png' %}{% endif %}">
-              </a>
+            <a href="{% url 'dangun_app:view_profile' post.user_id %}" class="profile-picture">
+              <img
+                src="{% if user_profile %}{{ user_profile.profile_picture.url }}{% else %}{% static 'profile_pictures/default_profile_picture.png' %}{% endif %}">
+            </a>
             {% endif %}
             <div class="user-datails" style="text-align: left;">
               <h3 style="margin-bottom: 6px;">{{ post.user }}</h3>
               <p>{{ post.location }}</p>
             </div>
-          </div> 
+          </div>
           <div>
             {% if user_profile.manner_temperature %}
             <p>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</p>
@@ -115,7 +122,7 @@
           {% else %}
           <div class="button-box">
             <a href="{% url 'dangun_app:chat' %}">
-              <button class="orange" id = "chat-button">채팅하기</button>
+              <button class="orange" id="chat-button">채팅하기</button>
             </a>
           </div>
           {% endif %}
@@ -168,44 +175,44 @@
   showSlides(slideIndex);
 
   document.addEventListener("DOMContentLoaded", function () {
-    
-    let viewChatButton = document.getElementById("chat_view_button");
-    if(viewChatButton !== null){
-        viewChatButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            // 현재 페이지 URL에서 pk 가져오기
-            let currentUrl = window.location.href;
-            let parts = currentUrl.split('/');
-            let pk = parts[parts.length - 2];
-            pk = parseInt(pk, 10);
 
-            // 서버로 pk 전송 후 채팅방 정보 가져오기
-            fetch(`/get_latest_chat/${pk}/`)
-              .then(response => 
-                  response.text().then(text => {
-                      try {
-                          return JSON.parse(text);
-                      } catch {
-                          console.error("Returned HTML:", text);
-                          throw new Error("Server did not return JSON. See logged HTML for details.");
-                      }
-                  })
-              )
-              .then(data => {
-                  if (data.success) {
-                      window.location.href = `/chat_index/${data.chat_room_id}/`;
-                  } else {
-                    alert(data.alert_message);
-                  }
-              })
-              .catch(error => {
-                  console.error("Error:", error);
-              });
-        });
-      }
-        
+    let viewChatButton = document.getElementById("chat_view_button");
+    if (viewChatButton !== null) {
+      viewChatButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        // 현재 페이지 URL에서 pk 가져오기
+        let currentUrl = window.location.href;
+        let parts = currentUrl.split('/');
+        let pk = parts[parts.length - 2];
+        pk = parseInt(pk, 10);
+
+        // 서버로 pk 전송 후 채팅방 정보 가져오기
+        fetch(`/get_latest_chat/${pk}/`)
+          .then(response =>
+            response.text().then(text => {
+              try {
+                return JSON.parse(text);
+              } catch {
+                console.error("Returned HTML:", text);
+                throw new Error("Server did not return JSON. See logged HTML for details.");
+              }
+            })
+          )
+          .then(data => {
+            if (data.success) {
+              window.location.href = `/chat_index/${data.chat_room_id}/`;
+            } else {
+              alert(data.alert_message);
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+          });
+      });
+    }
+
     const chatButton = document.getElementById("chat-button");
-    if(chatButton !== null){
+    if (chatButton !== null) {
       chatButton.addEventListener("click", function (event) {
         event.preventDefault();
         // 현재 페이지 URL에서 pk 가져오기
@@ -229,103 +236,104 @@
             console.error("Error:", error);
           });
       });
-    } 
-    
+    }
+
 
     // 삭제 버튼을 포함한 요소를 선택합니다.
-const deleteButtonContainer = document.getElementById("delete-post");
+    const deleteButtonContainer = document.getElementById("delete-post");
 
-if (deleteButtonContainer) {
-  // 삭제 버튼이 있는 경우에만 JavaScript 코드를 실행합니다.
-  const deleteButton = document.getElementById("delete-post");
+    if (deleteButtonContainer) {
+      // 삭제 버튼이 있는 경우에만 JavaScript 코드를 실행합니다.
+      const deleteButton = document.getElementById("delete-post");
 
-  // 삭제 버튼을 클릭할 때
-  deleteButton.addEventListener("click", function () {
-    if (confirm("{{ post.title }} 물품을 삭제하시겠습니까?")) {
-      // 확인을 눌렀을 때만 삭제 요청을 보냅니다.
-      const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
+      // 삭제 버튼을 클릭할 때
+      deleteButton.addEventListener("click", function () {
+        if (confirm("{{ post.title }} 물품을 삭제하시겠습니까?")) {
+          // 확인을 눌렀을 때만 삭제 요청을 보냅니다.
+          const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
 
-      // AJAX 요청을 보냅니다.
-      fetch("{% url 'dangun_app:delete_post' post.id %}", {
-        method: "DELETE",
-        headers: {
-          "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
-        },
-      })
-        .then(response => {
-          if (response.ok) {
-            // 성공적으로 삭제되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
-            alert("{{ post.title }} 물품이 삭제되었습니다.");
-            window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
-          } else {
-            // 실패한 경우에 대한 처리
-            alert("포스트 삭제에 실패했습니다.");
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
+          // AJAX 요청을 보냅니다.
+          fetch("{% url 'dangun_app:delete_post' post.id %}", {
+            method: "DELETE",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
+            },
+          })
+            .then(response => {
+              if (response.ok) {
+                // 성공적으로 삭제되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
+                alert("{{ post.title }} 물품이 삭제되었습니다.");
+                window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
+              } else {
+                // 실패한 경우에 대한 처리
+                alert("포스트 삭제에 실패했습니다.");
+              }
+            })
+            .catch(error => {
+              console.error("Error:", error);
+            });
+        }
+      });
     }
-  });
-}
 
 
     const reUploadButton = document.getElementById("re-upload");
-      const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
-      if (reUploadButton) {
+    const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
+    if (reUploadButton) {
       // 끌어올리기 버튼을 클릭할 때
       reUploadButton.addEventListener("click", function () {
         // 현재 시간을 가져옵니다.
         const currentTime = new Date().getTime();
-      
+
         // 포스트의 마지막 끌어올리기 시간을 가져옵니다.
         const lastReUploadTime = new Date("{{ post.modified_at|date:'c' }}").getTime();
-      
+
         // 끌어올리기 가능한 시간 간격 (4시간)
         // const reUploadInterval = 4 * 60 * 60 * 1000;
 
         // 임시로 5분
         const reUploadInterval = 5 * 60 * 1000;
-      
+
         // 남은 시간을 계산합니다.
         const remainingTime = reUploadInterval - (currentTime - lastReUploadTime);
-      
+
         // 남은 시간을 계산하여 알림창에 표시합니다.
         const hours = Math.floor(remainingTime / (60 * 60 * 1000));
         const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
-        const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000); 
-      
+        const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+
         if (remainingTime <= 0) {
           // AJAX 요청을 보냅니다.
-        fetch("{% url 'dangun_app:bring_to_top' post.id %}", {
-          method: "POST",
-          headers: {
-            "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
-          },
-        })
-          .then(response => {
-            if (response.ok) {
-              // 성공적으로 끌어올리기되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
-              alert("포스트가 끌어올려졌습니다.");
-              window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
-            } else {
-              // 실패한 경우에 대한 처리
-              alert("끌어올리기에 실패했습니다.");
-            }
+          fetch("{% url 'dangun_app:bring_to_top' post.id %}", {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
+            },
           })
-          .catch(error => {
-            console.error("Error:", error);
-          });
-        } 
+            .then(response => {
+              if (response.ok) {
+                // 성공적으로 끌어올리기되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
+                alert("포스트가 끌어올려졌습니다.");
+                window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
+              } else {
+                // 실패한 경우에 대한 처리
+                alert("끌어올리기에 실패했습니다.");
+              }
+            })
+            .catch(error => {
+              console.error("Error:", error);
+            });
+        }
         else {
           alert(`끌어올리기까지 ${hours}시간 ${minutes}분 ${seconds}초 남았습니다.`);
         }
+      });
+    }
+
+
   });
-}
-  
-  
-});
 
 </script>
+<script src="{% static 'js/download_footer.js' %}"></script>
 
 </html>
