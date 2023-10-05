@@ -102,6 +102,9 @@ def create_or_join_chat(request, pk):
         chat_room.save()
         created = True
 
+        # 해당 포스트의 chat_num을 증가시킴
+        post.chat_num += 1
+        post.save()
     return JsonResponse({"success": True, "chat_room_id": chat_room.pk, "created": created})
 
 
@@ -190,8 +193,15 @@ def test(request):
 
 # 중고거래 화면
 def trade(request):
-    top_views_posts = Post.objects.filter(product_sold="N").order_by("-modified_at")
+    # 조회수 기준
+    top_views_posts = Post.objects.filter(product_sold="N").order_by("-view_num")
     return render(request, "dangun_app/trade.html", {"posts": top_views_posts})
+
+
+def trade_time(request):
+    # 끌올 시간 기준
+    top_views_posts = Post.objects.filter(product_sold="N").order_by("-modified_at")
+    return render(request, "dangun_app/trade_time.html", {"posts": top_views_posts})
 
 
 # Post Model에 user model pk도 가져오면 더 효율적일 수 있음.

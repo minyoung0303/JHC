@@ -14,6 +14,7 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(next_page="dangun_app:main"), name="logout"),
     path("register/", views.register, name="register"),
     path("trade/", views.trade, name="trade"),
+    path("trade_time/", views.trade_time, name="trade_time"),
     path("trade_post/<int:pk>/", views.trade_post, name="trade_post"),
     path("write/", views.write, name="write"),
     path("edit/<int:id>/", views.edit, name="edit"),
