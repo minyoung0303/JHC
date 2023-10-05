@@ -45,7 +45,7 @@
               <a href="{% url 'dangun_app:trade_post' post.pk %}" class="trade-text-link">
                 <div class="card-img">
                   {% if post.images.first %}
-                      <img src="{{ post.images.first.image.url }}" alt="{{ post.title }}">
+                  <img src="{{ post.images.first.image.url }}" alt="{{ post.title }}">
                   {% endif %}
                 </div>
                 <div class="card-info-box">
@@ -71,5 +71,6 @@
     {% include 'dangun_app/footer.html' %}
 
 </body>
+<script src="{% static 'js/download_footer.js' %}"></script>
 
 </html>

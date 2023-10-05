@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
     <title>프로필</title>
 </head>
+
 <body>
     {% include 'dangun_app/nav.html' %}
     {% block content %}
@@ -31,12 +33,14 @@
             {% else %}
             <p>매너 온도 정보 없음</p>
             {% endif %}
-            
-        </div>  
+
+        </div>
     </div>
     {% endblock %}
     {% include 'dangun_app/footer.html' %}
 </body>
+<script src="{% static 'js/download_footer.js' %}"></script>
+
 </html>
 
 <!-- {{ userprofile.profile_picture.url }}" alt="{{ userprofile.nickname }}" width="150 -->
