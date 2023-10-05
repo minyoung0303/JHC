@@ -109,13 +109,13 @@
               <button class="grey">수정하기</button>
             </a>
             <button class="grey" id="delete-post">삭제하기</button>
-            <button class="orange">채팅보기</button>
+            <button id="chat_view_button" class="orange">채팅보기</button>
             <button class="orange" id="re-upload">끌어올리기</button>
           </div>
           {% else %}
           <div class="button-box">
             <a href="{% url 'dangun_app:chat' %}">
-              <button class="orange">채팅하기</button>
+              <button class="orange" id = "chat-button">채팅하기</button>
             </a>
           </div>
           {% endif %}
@@ -142,6 +142,7 @@
   {% include 'dangun_app/footer.html' %}
 
 </body>
+<script src="{% static 'js/download_footer.js' %}"></script>
 <script>
   let slideIndex = 1;
 
@@ -165,41 +166,113 @@
 
   // 슬라이드쇼를 초기화합니다.
   showSlides(slideIndex);
+
   document.addEventListener("DOMContentLoaded", function () {
-    const deleteButton = document.getElementById("delete-post");
+    
+    let viewChatButton = document.getElementById("chat_view_button");
+    if(viewChatButton !== null){
+        viewChatButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            // 현재 페이지 URL에서 pk 가져오기
+            let currentUrl = window.location.href;
+            let parts = currentUrl.split('/');
+            let pk = parts[parts.length - 2];
+            pk = parseInt(pk, 10);
 
-    // 삭제 버튼을 클릭할 때
-    deleteButton.addEventListener("click", function () {
-      if (confirm("{{ post.title }} 물품을 삭제하시겠습니까?")) {
-        // 확인을 눌렀을 때만 삭제 요청을 보냅니다.
-        const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
+            // 서버로 pk 전송 후 채팅방 정보 가져오기
+            fetch(`/get_latest_chat/${pk}/`)
+              .then(response => 
+                  response.text().then(text => {
+                      try {
+                          return JSON.parse(text);
+                      } catch {
+                          console.error("Returned HTML:", text);
+                          throw new Error("Server did not return JSON. See logged HTML for details.");
+                      }
+                  })
+              )
+              .then(data => {
+                  if (data.success) {
+                      window.location.href = `/chat_index/${data.chat_room_id}/`;
+                  } else {
+                    alert(data.alert_message);
+                  }
+              })
+              .catch(error => {
+                  console.error("Error:", error);
+              });
+        });
+      }
+        
+    const chatButton = document.getElementById("chat-button");
+    if(chatButton !== null){
+      chatButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        // 현재 페이지 URL에서 pk 가져오기
+        let currentUrl = window.location.href;
+        let parts = currentUrl.split('/');
+        let pk = parts[parts.length - 2];
+        pk = parseInt(pk, 10);
 
-        // AJAX 요청을 보냅니다.
-        fetch("{% url 'dangun_app:delete_post' post.id %}", {
-          method: "DELETE",
-          headers: {
-            "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
-          },
-        })
-          .then(response => {
-            if (response.ok) {
-              // 성공적으로 삭제되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
-              alert("{{ post.title }} 물품이 삭제되었습니다.");
-              window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
+        // 채팅방을 생성하거나 기존방에 참여한 후, 생성된 채팅방의 ID를 반환
+        // 채팅방으로 리디렉션
+        fetch(`/create_or_join_chat/${pk}/`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              window.location.href = `/chat_index/${data.chat_room_id}/`;
             } else {
-              // 실패한 경우에 대한 처리
-              alert("포스트 삭제에 실패했습니다.");
+              alert("다시 시도해주세요");
             }
           })
           .catch(error => {
             console.error("Error:", error);
           });
-      }
-    });
+      });
+    } 
+    
+
+    // 삭제 버튼을 포함한 요소를 선택합니다.
+const deleteButtonContainer = document.getElementById("delete-button-container");
+
+if (deleteButtonContainer) {
+  // 삭제 버튼이 있는 경우에만 JavaScript 코드를 실행합니다.
+  const deleteButton = deleteButtonContainer.querySelector("#delete-post");
+
+  // 삭제 버튼을 클릭할 때
+  deleteButton.addEventListener("click", function () {
+    if (confirm("{{ post.title }} 물품을 삭제하시겠습니까?")) {
+      // 확인을 눌렀을 때만 삭제 요청을 보냅니다.
+      const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
+
+      // AJAX 요청을 보냅니다.
+      fetch("{% url 'dangun_app:delete_post' post.id %}", {
+        method: "DELETE",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}", // CSRF 토큰을 요청 헤더에 포함합니다.
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            // 성공적으로 삭제되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
+            alert("{{ post.title }} 물품이 삭제되었습니다.");
+            window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
+          } else {
+            // 실패한 경우에 대한 처리
+            alert("포스트 삭제에 실패했습니다.");
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+    }
+  });
+}
+
 
     const reUploadButton = document.getElementById("re-upload");
       const postID = "{{ post.id }}"; // Django 템플릿 변수를 사용하여 포스트 ID를 가져옵니다.
-
+      if (reUploadButton) {
       // 끌어올리기 버튼을 클릭할 때
       reUploadButton.addEventListener("click", function () {
         // 현재 시간을 가져옵니다.
@@ -248,6 +321,8 @@
           alert(`끌어올리기까지 ${hours}시간 ${minutes}분 ${seconds}초 남았습니다.`);
         }
   });
+}
+  
   
 });
 

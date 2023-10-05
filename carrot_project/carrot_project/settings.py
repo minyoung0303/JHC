@@ -43,8 +43,6 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -54,12 +52,26 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "carrot_app",
     "django.contrib.humanize",
+    "channels",
+    "channels_redis",
     "storages",
 ]
 
+ASGI_APPLICATION = "carrot_project.asgi.application"
+ALLOWED_HOSTS = ["*"]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -98,7 +110,7 @@ AWS_ACCESS_KEY_ID = get_secret("ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = get_secret("SECRET_ACCESS_KEY")
 
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
 print(AWS_S3_CUSTOM_DOMAIN)
 # Static Setting
 STATIC_URL = "http://%s/static/" % AWS_S3_CUSTOM_DOMAIN

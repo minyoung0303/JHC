@@ -19,8 +19,14 @@ from .forms import CustomLoginForm, CustomRegistrationForm, PostForm, UserProfil
 from django.shortcuts import render
 
 
+# Alert용 화면
+def alert(request, alert_message, redirect_url="location"):  # default 값을 'location'으로 설정
+    context = {"alert_message": alert_message, "redirect_url": redirect_url}
+    return render(request, "dangun_app/alert.html", context)
+
+
 def index(request):
-    return render(request, "chat/index.html")
+    return render(request, "dangun_app/chat_index.html")
 
 
 # 채팅방 열기
@@ -135,7 +141,7 @@ def get_latest_chat_no_pk(request):
         return redirect("dangun_app:chat_room", pk=latest_chat.room_number)
 
     except ChatRoom.DoesNotExist:
-        return redirect("dangun_app:alert", alert_message="진행중인 채팅이 없습니다.")
+        return redirect("dangun_app:alert", alert_message="진행중인 채팅이 없습니다.", redirect_url="current")
 
 
 @method_decorator(login_required, name="dispatch")
@@ -175,26 +181,6 @@ class ConfirmDealView(View):
 def main(request):
     top_views_posts = Post.objects.filter(product_sold="N").order_by("-view_num")[:4]
     return render(request, "dangun_app/main.html", {"posts": top_views_posts})
-
-
-def alert(request, alert_type):
-    # alert_type에 따라 다른 템플릿 선택
-    if alert_type == "login":
-        template_name = "dangun_app/alert_login.html"
-        alert_message = "로그인해주세요!"
-    elif alert_type == "region":
-        template_name = "dangun_app/alert_region.html"
-        alert_message = "동네인증해주세요!"
-    elif alert_type == "userProfile":
-        template_name = "dangun_app/alert_userProfile.html"
-        alert_message = "사용자정보가 없어요!"
-    else:
-        # 기본 템플릿 또는 오류 처리
-        template_name = "dangun_app/alert_region.html"
-        alert_message = "알 수 없는 알림 유형입니다."
-
-    context = {}  # alert_message를 컨텍스트에 추가
-    return render(request, template_name)
 
 
 # 테스트용 화면
