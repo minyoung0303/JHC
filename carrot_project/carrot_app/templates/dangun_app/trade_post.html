@@ -233,11 +233,11 @@
     
 
     // 삭제 버튼을 포함한 요소를 선택합니다.
-const deleteButtonContainer = document.getElementById("delete-button-container");
+const deleteButtonContainer = document.getElementById("delete-post");
 
 if (deleteButtonContainer) {
   // 삭제 버튼이 있는 경우에만 JavaScript 코드를 실행합니다.
-  const deleteButton = deleteButtonContainer.querySelector("#delete-post");
+  const deleteButton = document.getElementById("delete-post");
 
   // 삭제 버튼을 클릭할 때
   deleteButton.addEventListener("click", function () {
