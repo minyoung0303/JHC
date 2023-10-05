@@ -59,6 +59,10 @@ class PostForm(forms.ModelForm):
     images = forms.ImageField(widget=MultipleFileInput, required=False)  # 커스텀 다중 파일 업로드 위젯 사용
 
 
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField()
+
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -82,7 +86,3 @@ class UserProfileForm(forms.ModelForm):
 
 
 from django import forms
-
-
-class ImageUploadForm(forms.Form):
-    image = forms.ImageField()

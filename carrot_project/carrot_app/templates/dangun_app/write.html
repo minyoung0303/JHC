@@ -28,11 +28,9 @@
                       <img src="{% if post %}{{ post.images.first.url }}{% else %}{% static 'img/icon_photo.png' %}{% endif %}" alt="이미지 설명" id="imagePreview">
                     </div>
                     
-                    <input type="file" name="images" accept="image/*" multiple  style="display: none;" onchange="previewImage(event);">
+                    <input type="file" name="images" accept="image/*" multiple  style="display: none;" onchange="previewImage2(event);" value="사진추가하기">
                   </label>
                   <div>
-                    <button id = "prevButton">&#10094;</button>
-                    <button id = "nextButton">&#10095;</button>
                     <div class="flex-box column baseline title-box">
                       <label for="title">글 제목</label>
                       <input type="text" name="title" placeholder="글 제목" required="required" value="{% if post %}{{ post.title }}{% endif %}">
@@ -64,39 +62,41 @@
             </div>
           </div>
         {% endblock %}
+        <div class="image-list" id="imagePreviewList">
+          <!-- 여기에 이미지 목록이 표시됩니다. -->
+        </div>
 
         <script type="text/javascript" src="{% static 'js/write.js' %}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-        $(document).ready(function() {
-            var images = [{% for image in post.images.all %}"{{ image.url }}",{% endfor %}];
-
-            var currentIndex = 0;
-            var maxIndex = images.length - 1;
-
-            function showImage(index) {
-                $("#imagePreview").attr("src", images[index]);
-            }
-
-            // 초기 이미지 표시
-            showImage(currentIndex);
-
-            // 이전 이미지 보기
-            $("#prevButton").click(function() {
-                event.preventDefault(); // 버튼 클릭 시 폼 제출 방지
-                currentIndex = (currentIndex - 1 + images.length) % images.length;
-                showImage(currentIndex);
-            });
-
-            // 다음 이미지 보기
-            $("#nextButton").click(function() {
-                event.preventDefault(); // 버튼 클릭 시 폼 제출 방지
-                currentIndex = (currentIndex + 1) % images.length;
-                showImage(currentIndex);
-            });
-        });
-        </script>
 
       </body>
+      <script>
+        const formData = new FormData();
+        function previewImage2(event) {
+          let reader = new FileReader();
+          reader.onload = function () {
+            let output = document.getElementById("imagePreview");
+            output.src = reader.result;
+            output.classList.add("img-upload-fit");
+          };
+          reader.readAsDataURL(event.target.files[0]);
+          for (let i = 0; i < event.target.files.length; i++) {
+            formData.append("images[]", event.target.files[i]);
+          }
+          
+          const files = event.target.files;
+          const fileList = document.createElement("ul"); // 이미지 목록을 나타내는 <ul> 요소를 생성합니다.
+        
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+        
+            // 각 파일을 나타내는 <li> 요소를 생성합니다.
+            const listItem = document.createElement("li");
+            listItem.textContent = file.name; // 파일 이름을 표시합니다.
+        
+            fileList.appendChild(listItem); // <li> 요소를 <ul> 요소에 추가합니다.
+          }
+          document.getElementById("imagePreviewList").appendChild(fileList); // <ul> 요소를 <body> 요소에 추가합니다.
+        }
+      </script>
 
     </html>
