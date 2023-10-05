@@ -32,19 +32,18 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    nickname = models.CharField(max_length=100, default="Guest")
-    email = models.EmailField(default="example@oruemi.com")
+    nickname = models.CharField(max_length=100, null=True)
+    email = models.EmailField(null=True)
     birthdate = models.DateField(null=True)
     gender = models.CharField(
-        max_length=1, choices=[("M", "Male"), ("F", "Female"), ("O", "Other")], default="O"
+        max_length=1, choices=[("M", "Male"), ("F", "Female"), ("O", "Other")], null=True
     )
     profile_picture = models.ImageField(
-        upload_to="profile_pictures/", default="default_profile_picture.png"  # 기본 프로필 사진 경로
+        upload_to="profile_pictures/", default="profile_pictures/default_profile_picture.png"  # 기본 프로필 사진 경로
     )
     region = models.CharField(max_length=100, null=True)
     region_certification = models.CharField(max_length=1, default="N")
 
-    user_certification = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.username} Profile"
@@ -54,8 +53,8 @@ class MannerTemperature(models.Model):
     user = models.OneToOneField(
         UserProfile, on_delete=models.CASCADE, related_name="manner_temperature"
     )
-    total_votes = models.PositiveIntegerField(default=0)  # 전체 투표 수
-    total_score = models.PositiveIntegerField(default=0)  # 전체 점수 합
+    total_votes = models.PositiveIntegerField(default=1)  # 전체 투표 수
+    total_score = models.PositiveIntegerField(default=30)  # 전체 점수 합
 
     def average_temperature(self):
         if self.total_votes > 0:

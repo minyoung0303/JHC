@@ -7,12 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q
 
-
 from django.utils.decorators import method_decorator
 from django.views import View
 
 from .models import Post, UserProfile, UserProfile, ChatRoom, Message
-
 from .forms import CustomLoginForm, CustomRegistrationForm, PostForm, UserProfileForm
 
 
@@ -202,7 +200,7 @@ def trade(request):
     top_views_posts = Post.objects.filter(product_sold="N").order_by("-modified_at")
     return render(request, "dangun_app/trade.html", {"posts": top_views_posts})
 
-
+# Post Model에 user model pk도 가져오면 더 효율적일 수 있음. 
 # 중고거래상세정보(각 포스트) 화면
 def trade_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -261,58 +259,50 @@ def edit(request, id):
 
     return render(request, "dangun_app/write.html", {"post": post})
 
-
-# def userprofile(request, user_id):
-#     user = get_object_or_404(User, username=user_id)
-#     id = user.id
-#     userprofile = get_object_or_404(UserProfile, user_id=id)
-
-#     # 로그인한 사용자인 경우
-#     if request.user.is_authenticated:
-#         # 자기 자신의 프로필 페이지인 경우 또는 공개 프로필인 경우
-#         if request.user == userprofile.user or userprofile.public_profile:
-#             if request.method == "POST":
-#                 # 프로필 정보 수정 폼을 제출한 경우
-#                 userprofile_form = UserProfileForm(
-#                     request.POST, request.FILES, instance=userprofile
-#                 )
-#                 if userprofile_form.is_valid():
-#                     userprofile_form.save()
-#                     return render(
-#                         request, "dangun_app/userprofile.html", {"userprofile": userprofile}
-#                     )
-#             else:
-#                 # POST 요청이 아닌 경우 또는 프로필 정보 수정 폼 보기
-#                 userprofile_form = UserProfileForm(instance=userprofile)
-#             return render(
-#                 request,
-#                 "dangun_app/userprofile.html",
-#                 {"userprofile": userprofile, "userprofile_form": userprofile_form},
-#             )
-
-#     # 로그인하지 않은 사용자 또는 공개 프로필이 아닌 경우
-#     return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile})
-
-
-def userprofile(request, user_id):
-    user = get_object_or_404(User, username=user_id)
-    id = user.id
-    userprofile = get_object_or_404(UserProfile, user_id=id)
+@login_required
+def my_profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
 
     context = {
-        "userprofile": userprofile,
+        "user_profile": user_profile
     }
-    
-    # 로그인한 사용자인 경우
-    if request.user.is_authenticated:
-        if request.user == userprofile.user and userprofile.user_certification == "N":
-            return render(request, "dangun_app/regist_userprofile.html")
 
+    return render(request, 'dangun_app/my_profile.html', context)
+
+@login_required
+def edit_profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES,instance=user_profile)  # 폼에 현재 프로필 데이터를 채움
+        if form.is_valid():
+            form.save()  # 폼 데이터를 저장하고 프로필 업데이트
+            messages.success(request, '프로필이 성공적으로 업데이트되었습니다.')  # 메시지를 추가
+            return redirect('dangun_app:my_profile')
         else:
-            return render(request, "dangun_app/userprofile.html", context)
+            messages.error(request, '프로필 업데이트에 실패하였습니다. 입력값을 확인하세요.')  # 실패 메시지를 추가
     else:
-        return render(request, "dangun_app/userprofile.html", context)
+        form = UserProfileForm(instance=user_profile)  # GET 요청 시 폼에 현재 프로필 데이터를 채움
 
+    context= {
+        'form': form,
+        'user_profile': user_profile,
+    }
+    return render(request, 'dangun_app/edit_profile.html', context)
+
+@login_required
+def view_profile(request, user_id):
+    user = get_object_or_404(User, username=user_id)
+    id = user.id
+    user_profile = get_object_or_404(UserProfile, user_id=id)
+    
+    return render(request, 'dangun_app/view_profile.html', {'user_profile': user_profile})
 
 # 채팅 화면
 @login_required

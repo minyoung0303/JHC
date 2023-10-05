@@ -20,14 +20,20 @@
             <h1>프로필 정보</h1>
 
             <!-- 여기에 프로필 정보를 표시하는 HTML 코드를 추가하세요 -->
-            <p><strong>닉네임:</strong> {{ userprofile.nickname }}</p>
-            <p><strong>이메일:</strong> {{ userprofile.email }}</p>
-            <p><strong>생년월일:</strong> {{ userprofile.birthdate }}</p>
-            <p><strong>성별:</strong> {{ userprofile.get_gender_display }}</p>
-            <p><strong>프로필 사진:</strong> <img src="#"></p>
-            <p><strong>지역:</strong> {{ userprofile.region }}</p>
+            <p><strong>닉네임:</strong> {{ user_profile.nickname }}</p>
+            <p><strong>이메일:</strong> {{ user_profile.email }}</p>
+            <p><strong>생년월일:</strong> {{ user_profile.birthdate }}</p>
+            <p><strong>성별:</strong> {{ user_profile.get_gender_display }}</p>
+            <p><strong>프로필 사진:</strong> <img src="{{ user_profile.profile_picture.url }}"></p>
+            <p><strong>지역:</strong> {{ user_profile.region }}</p>
 
-            <a href="#">프로필 수정</a>
+            {% if user_profile.manner_temperature %}
+            <p>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</p>
+            {% else %}
+            <p>매너 온도 정보 없음</p>
+            {% endif %}
+
+            <a href="{% url 'dangun_app:edit_profile' %}">프로필 수정</a>
         </div>  
     </div>
     {% endblock %}

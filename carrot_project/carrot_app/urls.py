@@ -24,8 +24,12 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("chat/", views.chat_view, name="chat"),
     path("delete_post/<int:post_id>/", views.delete_post, name="delete_post"),
-    path("userprofile/<str:user_id>", views.userprofile, name="userprofile"),
     path("pin_post/<int:post_id>/", bring_to_top, name="bring_to_top"),
+
+    path('profile/', views.my_profile, name='my_profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('profile/<str:user_id>/', views.view_profile, name='view_profile'),
+
 
     # 채팅
     path("chat_index", views.index, name='index'),  
@@ -35,4 +39,5 @@ urlpatterns = [
     path('get_latest_chat/<int:pk>/', views.get_latest_chat, name='get_latest_chat'),
 
     path('confirm_deal/<int:post_id>/', views.ConfirmDealView.as_view(), name='confirm_deal'),
+
 ]

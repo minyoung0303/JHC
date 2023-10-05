@@ -43,7 +43,23 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['nickname', 'email', 'birthdate', 'gender', 'profile_picture', 'region']
 
+        labels = {
+            'nickname': '닉네임',
+            'email': '이메일',
+            'birthdate': '생년월일',
+            'gender': '성별',
+            'profile_picture': '프로필 사진',
+            'region': '지역',
+        }
+
+    profile_picture = forms.ImageField(label='프로필 사진', required=False)
+
     def clean_birthdate(self):
         birthdate = self.cleaned_data['birthdate']
         # birthdate 유효성 검사 또는 추가 로직을 여기에 추가할 수 있습니다.
         return birthdate
+    
+from django import forms
+
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField()
