@@ -32,19 +32,18 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    nickname = models.CharField(max_length=100, default="Guest")
-    email = models.EmailField()
-    birthdate = models.DateField()
+    nickname = models.CharField(max_length=100, null=True)
+    email = models.EmailField(null=True)
+    birthdate = models.DateField(null=True)
     gender = models.CharField(
-        max_length=1, choices=[("M", "Male"), ("F", "Female"), ("O", "Other")], default="O"
+        max_length=1, choices=[("M", "Male"), ("F", "Female"), ("O", "Other")], null=True
     )
     profile_picture = models.ImageField(
-        upload_to="profile_pictures/", default="default_profile_picture.png"  # 기본 프로필 사진 경로
+        upload_to="profile_pictures/", default="profile_pictures/default_profile_picture.png"  # 기본 프로필 사진 경로
     )
     region = models.CharField(max_length=100, null=True)
     region_certification = models.CharField(max_length=1, default="N")
 
-    user_certification = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.username} Profile"
@@ -54,8 +53,8 @@ class MannerTemperature(models.Model):
     user = models.OneToOneField(
         UserProfile, on_delete=models.CASCADE, related_name="manner_temperature"
     )
-    total_votes = models.PositiveIntegerField(default=0)  # 전체 투표 수
-    total_score = models.PositiveIntegerField(default=0)  # 전체 점수 합
+    total_votes = models.PositiveIntegerField(default=1)  # 전체 투표 수
+    total_score = models.PositiveIntegerField(default=30)  # 전체 점수 합
 
     def average_temperature(self):
         if self.total_votes > 0:
@@ -68,6 +67,35 @@ class MannerTemperature(models.Model):
         self.total_score += score
         self.save()
 
+class ChatRoom(models.Model):
+    room_number = models.AutoField(primary_key=True)
+    starter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='started_chats')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_chats')
+    created_at = models.DateTimeField(auto_now_add=True)
+    latest_message_time = models.DateTimeField(null=True, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='chat_rooms', null=True, blank=True)
+
+
+    def __str__(self):
+        return f'ChatRoom: {self.starter.username} and {self.receiver.username}'
+
+class Message(models.Model):
+    chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='messages')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authored_messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Message: {self.author.username} at {self.timestamp}'
+
+    class Meta:
+        ordering = ['timestamp']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # 새 메시지가 저장될 때마다 chatroom의 latest_message_time을 업데이트
+        self.chatroom.latest_message_time = self.timestamp
+        self.chatroom.save()
 
 class Chat(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")

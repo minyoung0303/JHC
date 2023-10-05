@@ -45,13 +45,26 @@
         
         <div class="flex-box between info-button-box">
           <div class="user-info">
-            <a href="{% url 'dangun_app:userprofile' post.user_id %}" class="profile-picture">
-              <img src="#">
-            </a>
+            {% if post.user == request.user %}
+              <a href="{% url 'dangun_app:my_profile' %}" class="profile-picture">
+                  <img src="{% if user_profile %}{{ user_profile.profile_picture.url }}{% else %}{% static 'profile_pictures/default_profile_picture.png' %}{% endif %}">
+              </a>
+            {% else %}
+              <a href="{% url 'dangun_app:view_profile' post.user_id %}" class="profile-picture">
+                  <img src="{% if user_profile %}{{ user_profile.profile_picture.url }}{% else %}{% static 'profile_pictures/default_profile_picture.png' %}{% endif %}">
+              </a>
+            {% endif %}
             <div class="user-datails" style="text-align: left;">
               <h3 style="margin-bottom: 6px;">{{ post.user }}</h3>
               <p>{{ post.location }}</p>
             </div>
+          </div> 
+          <div>
+            {% if user_profile.manner_temperature %}
+            <p>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</p>
+            {% else %}
+            <p>매너 온도 정보 없음</p>
+            {% endif %}
           </div>
           {% if request.user.username == post.user.username %}
           <div class="flex-box button-box">

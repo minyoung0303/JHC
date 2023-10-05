@@ -1,0 +1,45 @@
+{% load static%}{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade_post.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% include 'dangun_app/nav.html' %}
+
+    <div class="content-box">
+      <div class="container column">
+        {% block content %}
+          <h1>프로필 정보 수정</h1>
+          <form method="post">
+            {% csrf_token %}
+            <div class="content-box">
+              {{ form.nickname.label_tag }} {{ form.nickname }}
+            </div>
+            <div class="content-box">
+              유저 프로필
+              <p><img src='{{ user_profile.profile_picture.url }}'></p>
+              {{ form.profile_picture.label_tag }} {{ form.profile_picture }}
+            </div>
+            {{ form.email.label_tag }} {{ form.email }}
+            {{ form.birthdate.label_tag }} {{ form.birthdate }}
+            {{ form.gender.label_tag }} {{ form.gender }}
+            {{ form.region.label_tag }} {{ form.region }}
+
+            <button type="submit">저장</button>
+          </form>
+        {% endblock %}
+      </div>
+  </div>
+
+    {% include 'dangun_app/footer.html' %}
+</body>
+</html>

@@ -7,8 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q
 
-from .models import Post, UserProfile, UserProfile
+from django.utils.decorators import method_decorator
+from django.views import View
 
+from .models import Post, UserProfile, UserProfile, ChatRoom, Message
 from .forms import CustomLoginForm, CustomRegistrationForm, PostForm, UserProfileForm
 
 
@@ -19,13 +21,147 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, "chat/index.html")
+# 채팅방 열기
+def chat_room(request, pk):
+    user = request.user
+    chat_room = get_object_or_404(ChatRoom, pk=pk)
+
+    # 내 ID가 포함된 방만 가져오기
+    chat_rooms = ChatRoom.objects.filter(
+            Q(receiver_id=user) | Q(starter_id=user)
+        ).order_by('-latest_message_time')  # 최신 메시지 시간을 기준으로 내림차순 정렬
+    
+    # 각 채팅방의 최신 메시지를 가져오기
+    chat_room_data = []
+    for room in chat_rooms:
+        latest_message = Message.objects.filter(chatroom=room).order_by('-timestamp').first()
+        if latest_message:
+            chat_room_data.append({
+                'chat_room': room,
+                'latest_message': latest_message.content,
+                'timestamp': latest_message.timestamp,
+            })
+
+    # 상대방 정보 가져오기
+    if chat_room.receiver == user:
+        opponent = chat_room.starter
+    else:
+        opponent = chat_room.receiver
+
+    opponent_user = User.objects.get(pk=opponent.pk)
 
 
-def room(request, room_name):
-    return render(request, "chat/room.html", {"room_name": room_name})
+    # post의 상태 확인 및 처리
+    if chat_room.post is None:
+        seller = None
+        post = None
+    else:
+        seller = chat_room.post.user
+        post = chat_room.post
+
+    return render(request, 'dangun_app/chat_room.html', {
+        'chat_room': chat_room,
+        'chat_room_data': chat_room_data,
+        'room_name': chat_room.pk,
+        'seller': seller,
+        'post': post,
+        'opponent': opponent_user,
+    })
 
 
-#
+# 채팅방 생성 또는 참여
+def create_or_join_chat(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
+    chat_room = None
+    created = False
+
+    # 채팅방이 이미 존재하는지 확인
+    chat_rooms = ChatRoom.objects.filter(
+        Q(starter=user, receiver=post.user, post=post) |
+        Q(starter=post.user, receiver=user, post=post)
+    )
+    if chat_rooms.exists():
+        chat_room = chat_rooms.first()
+    else:
+        # 채팅방이 존재하지 않는 경우, 새로운 채팅방 생성
+        chat_room = ChatRoom(starter=user, receiver=post.user, post=post)
+        chat_room.save()
+        created = True
+
+    return JsonResponse({'success': True, 'chat_room_id': chat_room.pk, 'created': created})
+
+
+# 가장 최근 채팅방 가져오기
+@login_required
+def get_latest_chat(request, pk):
+    user = request.user
+    # 1) 해당 pk인 채팅방 중 가장 최신 채팅방으로 리디렉션
+    try:
+        latest_chat_with_pk = ChatRoom.objects.filter(
+            Q(post_id=pk) &
+            (Q(receiver=user) | Q(starter=user))
+        ).latest('latest_message_time')
+        return JsonResponse({'success': True, 'chat_room_id': latest_chat_with_pk.room_number})
+    except ChatRoom.DoesNotExist:
+        pass
+
+    # 2) 위 경우가 없다면 내가 소속된 채팅방 전체 중 가장 최신 채팅방으로 리디렉션
+    try:
+        latest_chat = ChatRoom.objects.filter(
+            Q(receiver=user) | Q(starter=user)
+        ).latest('latest_message_time')
+        return JsonResponse({'success': True, 'chat_room_id': latest_chat.room_number})
+
+    # 3) 모두 없다면 현재 페이지로 리디렉션
+    except ChatRoom.DoesNotExist:
+        return redirect('dangun_app:alert', alert_message='진행중인 채팅이 없습니다.')
+        
+# nav/footer에서 채팅하기 눌렀을 때
+@login_required
+def get_latest_chat_no_pk(request):
+    user = request.user
+    try:
+        latest_chat = ChatRoom.objects.filter(
+            Q(receiver=user) | Q(starter=user),
+            latest_message_time__isnull=False
+        ).latest('latest_message_time')
+        return redirect('dangun_app:chat_room', pk=latest_chat.room_number)
+
+    except ChatRoom.DoesNotExist:
+        return redirect('dangun_app:alert', alert_message='진행중인 채팅이 없습니다.')
+    
+@method_decorator(login_required, name='dispatch')
+class ConfirmDealView(View):
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+        user = request.user
+
+        previous_url = request.META.get('HTTP_REFERER')
+        url_parts = previous_url.split('/')
+        original_post_id = url_parts[-2] if url_parts[-1] == '' else url_parts[-1]
+
+        chat_room = get_object_or_404(ChatRoom, room_number=original_post_id)
+
+
+        if chat_room.starter == user:
+            other_user = chat_room.receiver
+        else:
+            other_user = chat_room.starter
+
+        if chat_room is None:
+            messages.error(request, 'Chat room does not exist.')
+            return redirect('dangun_app:trade')
+        
+        # buyer를 설정하고, product_sold를 Y로 설정
+        post.buyer = chat_room.receiver if chat_room.starter == post.user else chat_room.starter
+        post.product_sold = 'Y'
+        post.save()
+        
+        # 거래가 확정되면 새로고침
+        return redirect('dangun_app:chat_room', pk=chat_room.room_number)
+
+# 채팅 끝 ################################################################################
 
 
 # 메인 화면
@@ -64,7 +200,7 @@ def trade(request):
     top_views_posts = Post.objects.filter(product_sold="N").order_by("-modified_at")
     return render(request, "dangun_app/trade.html", {"posts": top_views_posts})
 
-
+# Post Model에 user model pk도 가져오면 더 효율적일 수 있음. 
 # 중고거래상세정보(각 포스트) 화면
 def trade_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -123,57 +259,50 @@ def edit(request, id):
 
     return render(request, "dangun_app/write.html", {"post": post})
 
+@login_required
+def my_profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
 
-def userprofile(request, user_id):
+    context = {
+        "user_profile": user_profile
+    }
+
+    return render(request, 'dangun_app/my_profile.html', context)
+
+@login_required
+def edit_profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES,instance=user_profile)  # 폼에 현재 프로필 데이터를 채움
+        if form.is_valid():
+            form.save()  # 폼 데이터를 저장하고 프로필 업데이트
+            messages.success(request, '프로필이 성공적으로 업데이트되었습니다.')  # 메시지를 추가
+            return redirect('dangun_app:my_profile')
+        else:
+            messages.error(request, '프로필 업데이트에 실패하였습니다. 입력값을 확인하세요.')  # 실패 메시지를 추가
+    else:
+        form = UserProfileForm(instance=user_profile)  # GET 요청 시 폼에 현재 프로필 데이터를 채움
+
+    context= {
+        'form': form,
+        'user_profile': user_profile,
+    }
+    return render(request, 'dangun_app/edit_profile.html', context)
+
+@login_required
+def view_profile(request, user_id):
     user = get_object_or_404(User, username=user_id)
     id = user.id
-    userprofile = get_object_or_404(UserProfile, user_id=id)
-
-    # 로그인한 사용자인 경우
-    if request.user.is_authenticated:
-        # 자기 자신의 프로필 페이지인 경우 또는 공개 프로필인 경우
-        if request.user == userprofile.user or userprofile.public_profile:
-            if request.method == "POST":
-                # 프로필 정보 수정 폼을 제출한 경우
-                userprofile_form = UserProfileForm(
-                    request.POST, request.FILES, instance=userprofile
-                )
-                if userprofile_form.is_valid():
-                    userprofile_form.save()
-                    return render(
-                        request, "dangun_app/userprofile.html", {"userprofile": userprofile}
-                    )
-            else:
-                # POST 요청이 아닌 경우 또는 프로필 정보 수정 폼 보기
-                userprofile_form = UserProfileForm(instance=userprofile)
-            return render(
-                request,
-                "dangun_app/userprofile.html",
-                {"userprofile": userprofile, "userprofile_form": userprofile_form},
-            )
-
-    # 로그인하지 않은 사용자 또는 공개 프로필이 아닌 경우
-    return render(request, "dangun_app/userprofile.html", {"userprofile": userprofile})
-
-
-# def userprofile(request, user_id):
-#     user = get_object_or_404(User, username=user_id)
-#     id = user.id
-#     userprofile = get_object_or_404(UserProfile, user_id=id)
-
-#     context = {
-#     "userprofile": userprofile,
-#     }
-
-#     if request.user.is_authenticated:
-#         if request.user == userprofile.user and userprofile.user_certification == "N":
-#             return render(request, "dangun_app/regist_userprofile.html")
-
-#         else:
-#             return render(request, "dangun_app/userprofile.html", context)
-#     else:
-#         return render(request, "dangun_app/userprofile.html", context)
-
+    user_profile = get_object_or_404(UserProfile, user_id=id)
+    
+    return render(request, 'dangun_app/view_profile.html', {'user_profile': user_profile})
 
 # 채팅 화면
 @login_required
