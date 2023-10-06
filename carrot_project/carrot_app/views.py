@@ -524,4 +524,4 @@ def bring_to_top(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.modified_at = datetime.now(timezone.utc)
     post.save()
-    return redirect("dangun_app:trade")
+    return redirect("dangun_app:trade_time")

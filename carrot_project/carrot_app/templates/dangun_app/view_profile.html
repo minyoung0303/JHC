@@ -1,4 +1,5 @@
-{% load static%}{% load humanize %}
+{% load static %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,11 +7,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/trade_post.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile_styles.css' %}" />
+    <title>프로필</title>
     <title>
         {% if user_profile.nickname %}
             {{ user_profile.nickname }}님의 프로필
@@ -24,28 +28,50 @@
     {% include 'dangun_app/nav.html' %}
     {% block content %}
     <div class="content-box">
-        <div class="container column">
-            <h1>프로필 정보</h1>
+        <div class="container column profile-box">
+            <h1 style="color: #ff7300; margin-top: 10px;">프로필 정보</h1>
+            <div class="profile-picture">
+                <img src="{{ user_profile.profile_picture.url }}"
+                    style="width: 300px; height: 300px; border-radius: 30%; object-fit: cover; margin-right: 20px;">
+            </div>
 
-            <p><strong>닉네임:</strong> {{ user_profile.nickname }}</p>
-            <p><strong>이메일:</strong> {{ user_profile.email }}</p>
-            <p><strong>생년월일:</strong> {{ user_profile.birthdate }}</p>
-            <p><strong>성별:</strong> {{ user_profile.get_gender_display }}</p>
-            <p><strong>프로필 사진:</strong> <img src="{{ user_profile.profile_picture.url }}"></p>
-            <p><strong>지역:</strong> {{ user_profile.region }}</p>
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>닉네임:</strong> {{ user_profile.nickname }}</p>
+            </div>
+
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>이메일:</strong> {{ user_profile.email }}</p>
+            </div>
+
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>생년월일:</strong> {{ user_profile.birthdate }}</p>
+            </div>
+
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>성별:</strong> {{ user_profile.get_gender_display }}</p>
+            </div>
+
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>지역:</strong> {{ user_profile.region }}</p>
+            </div>
 
             {% if user_profile.manner_temperature %}
             {% with average_temperature=user_profile.manner_temperature.average_temperature %}
-            <p>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</p>
-            <form method="post" action="{% url 'dangun_app:vote_manner_temperature' user_profile.user.username %}">
-                {% csrf_token %}
-                <label for="temperature">온도 설정 (-10부터 10까지):</label>
-                <input type="number" name="temperature" id="temperature" min="{{ average_temperature|add:'-10' }}" max="{{ average_temperature|add:'10' }}" required>                <button type="submit">매너온도</button>
-            </form>
-            {% endwith %}
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</strong></p>
+                <form method="post" action="{% url 'dangun_app:vote_manner_temperature' user_profile.user.username %}">
+                    {% csrf_token %}
+                    <label for="temperature">온도 설정 (-20부터 20까지):</label>
+                    <input type="number" name="temperature" id="temperature" min="{{ average_temperature|add:'-20' }}" max="{{ average_temperature|add:'20' }}" required>                <button type="submit">매너온도</button>
+                </form>
+                {% endwith %}
+            </div>
             {% else %}
-            <p>매너 온도 정보 없음</p>
+            <div class="profile-item" style="margin-bottom:5px;">
+                <p><strong>매너 온도:</strong> 정보 없음</p>
+            </div>
             {% endif %}
+
 
         </div>
     </div>
@@ -55,5 +81,3 @@
 <script src="{% static 'js/download_footer.js' %}"></script>
 
 </html>
-
-<!-- {{ userprofile.profile_picture.url }}" alt="{{ userprofile.nickname }}" width="150 -->
