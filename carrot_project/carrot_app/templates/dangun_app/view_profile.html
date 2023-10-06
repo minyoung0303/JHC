@@ -11,7 +11,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/trade_post.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
-    <title>프로필</title>
+    <title>
+        {% if user_profile.nickname %}
+            {{ user_profile.nickname }}님의 프로필
+        {% else %}
+            {{ post.user }}님의 프로필
+        {% endif %}
+    </title>
 </head>
 
 <body>
@@ -29,7 +35,14 @@
             <p><strong>지역:</strong> {{ user_profile.region }}</p>
 
             {% if user_profile.manner_temperature %}
+            {% with average_temperature=user_profile.manner_temperature.average_temperature %}
             <p>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</p>
+            <form method="post" action="{% url 'dangun_app:vote_manner_temperature' user_profile.user.username %}">
+                {% csrf_token %}
+                <label for="temperature">온도 설정 (-10부터 10까지):</label>
+                <input type="number" name="temperature" id="temperature" min="{{ average_temperature|add:'-10' }}" max="{{ average_temperature|add:'10' }}" required>                <button type="submit">매너온도</button>
+            </form>
+            {% endwith %}
             {% else %}
             <p>매너 온도 정보 없음</p>
             {% endif %}
