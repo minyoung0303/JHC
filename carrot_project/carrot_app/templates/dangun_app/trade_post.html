@@ -314,7 +314,7 @@
               if (response.ok) {
                 // 성공적으로 끌어올리기되면 페이지를 다시 로드하거나 리디렉션할 수 있습니다.
                 alert("포스트가 끌어올려졌습니다.");
-                window.location.href = "{% url 'dangun_app:trade' %}" // trade 페이지로
+                window.location.href = "{% url 'dangun_app:trade_time' %}" // trade 페이지로
               } else {
                 // 실패한 경우에 대한 처리
                 alert("끌어올리기에 실패했습니다.");

@@ -47,6 +47,8 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    "channels",
+    "channels_redis",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,8 +58,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "carrot_app",
     "django.contrib.humanize",
-    "channels",
-    "channels_redis",
     "storages",
 ]
 
