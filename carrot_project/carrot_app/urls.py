@@ -36,4 +36,5 @@ urlpatterns = [
     path("get_latest_chat/", views.get_latest_chat_no_pk, name="get_latest_chat_no_pk"),
     path("get_latest_chat/<int:pk>/", views.get_latest_chat, name="get_latest_chat"),
     path("confirm_deal/<int:post_id>/", views.ConfirmDealView.as_view(), name="confirm_deal"),
+    path("profile/vote/<str:user_id>/", views.vote_manner_temperature, name="vote_manner_temperature")
 ]

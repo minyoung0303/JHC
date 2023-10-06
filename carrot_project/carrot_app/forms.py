@@ -66,7 +66,7 @@ class ImageUploadForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ["nickname", "email", "birthdate", "gender", "profile_picture", "region"]
+        fields = ["nickname", "email", "birthdate", "gender", "profile_picture"]
 
         labels = {
             "nickname": "닉네임",
@@ -74,15 +74,37 @@ class UserProfileForm(forms.ModelForm):
             "birthdate": "생년월일",
             "gender": "성별",
             "profile_picture": "프로필 사진",
-            "region": "지역",
         }
 
-    profile_picture = forms.ImageField(label="프로필 사진", required=False)
 
+
+    nickname = forms.CharField(label="닉네임", required=False)
+
+    # 생년월일 수정 시 생일 형식 검사
     def clean_birthdate(self):
         birthdate = self.cleaned_data["birthdate"]
-        # birthdate 유효성 검사 또는 추가 로직을 여기에 추가할 수 있습니다.
         return birthdate
 
 
-from django import forms
+    # 사용중인 닉네임인지 확인
+    def clean_nickname(self):
+        nickname = self.cleaned_data['nickname']
+
+        if UserProfile.objects.exclude(user=self.instance.user).filter(nickname=nickname).exists():
+            raise forms.ValidationError('이미 사용 중인 닉네임입니다.')
+        
+        return nickname
+
+    clear_profile_picture = forms.BooleanField(
+        required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+    def save(self, commit=True):
+        instance = super(UserProfileForm, self).save(commit=False)
+
+        if self.cleaned_data.get('clear_profile_picture'):
+            instance.profile_picture.delete(save=False)
+            instance.profile_picture = "profile_pictures/default_profile_picture.png"
+
+        if commit:
+            instance.save()
+        return instance

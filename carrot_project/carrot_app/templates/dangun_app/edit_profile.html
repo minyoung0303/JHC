@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/trade_post.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
@@ -18,28 +19,53 @@
     <div class="content-box">
       <div class="container column">
         {% block content %}
+        <div class="post-box">
           <h1>프로필 정보 수정</h1>
-          <form method="post">
+          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="content-box">
               {{ form.nickname.label_tag }} {{ form.nickname }}
+              {% for error in form.nickname.errors %}
+                <p class="text-danger">{{ error }}</p>
+              {% endfor %}
             </div>
-            <div class="content-box">
+
               유저 프로필
               <p><img src='{{ user_profile.profile_picture.url }}'></p>
-              {{ form.profile_picture.label_tag }} {{ form.profile_picture }}
-            </div>
-            {{ form.email.label_tag }} {{ form.email }}
-            {{ form.birthdate.label_tag }} {{ form.birthdate }}
-            {{ form.gender.label_tag }} {{ form.gender }}
-            {{ form.region.label_tag }} {{ form.region }}
-
+              <p>{{ form.profile_picture }} <button type="button" id="custom-clear-button">사진 선택 취소</button></p>
+              <p>{{ form.clear_profile_picture.label_tag }}{{ form.clear_profile_picture }}</p>
+              <p>{{ form.email.label_tag }} {{ form.email }}</p>
+              <p>{{ form.birthdate.label_tag }} {{ form.birthdate }}</p>
+              <p>{{ form.gender.label_tag }} {{ form.gender }}</p>
+              <p>{{ form.region.label_tag }} {{ form.region }}</p>
             <button type="submit">저장</button>
           </form>
+          {% if form.errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors }}
+              {% for field in form %}
+                {% if field.errors %}
+                  {{ field.label_tag }} {{ field.errors|striptags }}
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
         {% endblock %}
+        </div>
       </div>
   </div>
 
     {% include 'dangun_app/footer.html' %}
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  // 사용자 정의 취소 버튼 클릭 시
+  $('#custom-clear-button').click(function() {
+    // 파일 선택 필드의 값을 비웁니다.
+    $('#id_profile_picture').val('');
+  });
+});
+</script>
 </html>

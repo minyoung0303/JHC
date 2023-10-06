@@ -31,13 +31,13 @@
       /* 버튼 아이콘 크기 조정 */
       padding: 8px 16px;
       /* 버튼 패딩 조정 */
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 3);
       /* 배경 색상 설정 */
       color: white;
       /* 글자 색상 설정 */
       border: none;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 3s;
     }
 
     .prev:hover,
@@ -62,6 +62,45 @@
       align-items: center;
       justify-content: center;
       gap: 30px;
+    }
+    .blue {
+    color: blue;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 3), 1px -1px 0 rgba(0, 0, 0, 3), -1px 1px 0 rgba(0, 0, 0, 3), 1px 1px 0 rgba(0, 0, 0, 3);
+    padding: 3px;
+    }
+
+    .lightblue {
+        color: lightblue;
+        font-size: 24px;
+        font-weight: bold;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 3), 1px -1px 0 rgba(0, 0, 0, 3), -1px 1px 0 rgba(0, 0, 0, 3), 1px 1px 0 rgba(0, 0, 0, 3);
+        padding: 3px;
+    }
+
+    .green {
+        color: lightgreen;
+        font-size: 24px;
+        font-weight: bold;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 3), 1px -1px 0 rgba(0, 0, 0, 3), -1px 1px 0 rgba(0, 0, 0, 3), 1px 1px 0 rgba(0, 0, 0, 3);
+        padding: 3px;
+    }
+
+    .yellow {
+        color: yellow;
+        font-size: 24px;
+        font-weight: bold;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 3), 1px -1px 0 rgba(0, 0, 0, 3), -1px 1px 0 rgba(0, 0, 0, 3), 1px 1px 0 rgba(0, 0, 0, 3);
+        padding: 3px;
+    }
+
+    .red {
+        color: red;
+        font-size: 24px;
+        font-weight: bold;
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 3), 1px -1px 0 rgba(0, 0, 0, 3), -1px 1px 0 rgba(0, 0, 0, 3), 1px 1px 0 rgba(0, 0, 0, 3);
+        padding: 3px;
     }
   </style>
 </head>
@@ -99,17 +138,26 @@
             </a>
             {% endif %}
             <div class="user-datails" style="text-align: left;">
-              <h3 style="margin-bottom: 6px;">{{ post.user }}</h3>
+              <h3 style="margin-bottom: 6px;">
+                {% if user_profile.nickname %}
+                  {{ user_profile.nickname }}
+                {% else %}
+                  {{ post.user }}
+                {% endif %}
+              </h3>
               <p>{{ post.location }}</p>
             </div>
+            <div class="user-datails">
+              {% if user_profile.manner_temperature %}
+              {% with average_temperature=user_profile.manner_temperature.average_temperature %}
+                  <p><span class="{% if average_temperature <= 9 %}blue{% elif average_temperature <= 20 %}lightblue{% elif average_temperature <= 30 %}green{% elif average_temperature <= 40 %}yellow{% else %}red{% endif %}">{{ average_temperature }} °C</span></p>
+              {% endwith %}
+              {% else %}
+                  <p>매너 온도 정보 없음</p>
+              {% endif %}
+            </div>
           </div>
-          <div>
-            {% if user_profile.manner_temperature %}
-            <p>매너 온도: {{ user_profile.manner_temperature.average_temperature }}</p>
-            {% else %}
-            <p>매너 온도 정보 없음</p>
-            {% endif %}
-          </div>
+
           {% if request.user.username == post.user.username %}
           <div class="flex-box button-box">
             <a href="{% url 'dangun_app:edit' post.id %}">
