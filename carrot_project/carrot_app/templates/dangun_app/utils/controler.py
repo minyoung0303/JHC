@@ -74,7 +74,7 @@ def upload_image_to_s3(bucket_name, directory_name, image_file_path):
 # create_s3_directory(AWS_STORAGE_BUCKET_NAME, new_directory_name)
 
 # 이미지를 디렉토리에 업로드
-# upload_image_to_s3(AWS_STORAGE_BUCKET_NAME, image_diretory_path, image_file_path)
+upload_image_to_s3(AWS_STORAGE_BUCKET_NAME, image_diretory_path, image_file_path)
 
 # 이미지 삭제
 # try:

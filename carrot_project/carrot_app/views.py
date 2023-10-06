@@ -4,15 +4,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.db.models import Q
 
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from .models import Post, UserProfile, UserProfile, ChatRoom, Message, Image
+from .models import Post, UserProfile, UserProfile, ChatRoom, Message, Image, MannerTemperature
 from .forms import CustomLoginForm, CustomRegistrationForm, PostForm, UserProfileForm
 
+from datetime import datetime, timedelta
 
 # 채팅테스트
 # chat/views.py
@@ -20,9 +21,13 @@ from django.shortcuts import render
 
 
 # Alert용 화면
-def alert(request, alert_message, redirect_url="location"):  # default 값을 'location'으로 설정
-    context = {"alert_message": alert_message, "redirect_url": redirect_url}
-    return render(request, "dangun_app/alert.html", context)
+def alert(request, alert_message, redirect_url): # default 값을 'location'으로 설정
+    if redirect_url == "alert_region":
+        return render(request, "dangun_app/alert_region.html")
+    else:
+        redirect_url = "location"
+        context = {"alert_message": alert_message, "redirect_url": redirect_url}
+        return render(request, "dangun_app/alert.html", context)
 
 
 def index(request):
@@ -240,9 +245,9 @@ def write(request):
         if user_profile.region_certification == "Y":
             return render(request, "dangun_app/write.html")
         else:
-            return redirect("dangun_app:alert", alert_type="region")
+            return redirect("dangun_app:alert", alert_message="region", redirect_url="alert_region")
     except UserProfile.DoesNotExist:
-        return redirect("dangun_app:alert", alert_type="userProfile")
+        return redirect("dangun_app:alert", alert_message="region", redirect_url="location")
 
 
 # 거래글수정 화면
@@ -288,15 +293,15 @@ def edit_profile(request):
     if request.method == "POST":
         form = UserProfileForm(
             request.POST, request.FILES, instance=user_profile
-        )  # 폼에 현재 프로필 데이터를 채움
+        )  
         if form.is_valid():
-            form.save()  # 폼 데이터를 저장하고 프로필 업데이트
-            messages.success(request, "프로필이 성공적으로 업데이트되었습니다.")  # 메시지를 추가
+            form.save() 
+            messages.success(request, "프로필이 성공적으로 업데이트되었습니다.")  
             return redirect("dangun_app:my_profile")
         else:
-            messages.error(request, "프로필 업데이트에 실패하였습니다. 입력값을 확인하세요.")  # 실패 메시지를 추가
+            messages.error(request, "프로필 업데이트에 실패하였습니다. 입력값을 확인하세요.")
     else:
-        form = UserProfileForm(instance=user_profile)  # GET 요청 시 폼에 현재 프로필 데이터를 채움
+        form = UserProfileForm(instance=user_profile) 
 
     context = {
         "form": form,
@@ -313,6 +318,32 @@ def view_profile(request, user_id):
 
     return render(request, "dangun_app/view_profile.html", {"user_profile": user_profile})
 
+# views.py
+@login_required
+def vote_manner_temperature(request, user_id):
+    user = get_object_or_404(User, username=user_id)
+    user_profile = get_object_or_404(UserProfile, user=user)
+
+    if request.method == "POST":
+        # POST 요청에서 온도 값을 가져옵니다.
+        temperature = request.POST.get('temperature')
+        if temperature is not None:
+            try:
+                temperature = int(temperature)
+                # 현재 매너 온도를 가져옵니다.
+                manner_temperature, created = MannerTemperature.objects.get_or_create(user=user_profile)
+
+                # 입력된 온도를 현재 온도에 더해서 최종 투표 온도를 설정합니다.
+                # 매너 온도 모델 업데이트
+                manner_temperature.update_temperature(temperature)
+            except ValueError:
+                pass
+
+        # 투표 완료 후 프로필 페이지로 리디렉션
+        return redirect('dangun_app:view_profile', user_id=user.username)
+
+    # POST 이외의 HTTP 요청은 무시합니다.
+    return HttpResponseNotAllowed(['POST'])
 
 # 채팅 화면
 @login_required
