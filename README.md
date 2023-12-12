@@ -51,10 +51,10 @@
 
 ## 기술 스택
 
-| <img src="https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg" alt="HTML5" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg" alt="CSS3" width="50px" height="50px" />  | <img src="https://profilinator.rishav.dev/skills-assets/javascript-original.svg" alt="JavaScript" width="50px" height="50px" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/django-original.svg" alt="Django" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/figma-icon.svg" alt="Figma" height="50" /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg" alt="AWS" height="50"  /> | <img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/python-original.svg" alt="Python" height="50" /> |
+| ![HTML5](https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg) | ![CSS3](https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg) | ![JavaScript](https://profilinator.rishav.dev/skills-assets/javascript-original.svg) | ![Django](https://profilinator.rishav.dev/skills-assets/django-original.svg) | ![PostgreSQL](https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg) | ![Figma](https://profilinator.rishav.dev/skills-assets/figma-icon.svg) | ![AWS](https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg) | ![Python](https://profilinator.rishav.dev/skills-assets/python-original.svg) |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| HTML5 | CSS3 | JavaScript | Django | PostgreSQL | Figma | AWS | Python |
 
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|  HTML5  |  CSS3  |  Javascript  |  django |  postgresql  |  Figma  |  AWS  |  Python  |
 
 <br />
 
