@@ -51,16 +51,16 @@
 
 ## 기술 스택
 
-<table>
+<table style="width: 100%;">
   <tr>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg" alt="HTML5" width="50px" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg" alt="CSS3" width="50px" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/javascript-original.svg" alt="JavaScript" width="50px" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/python-original.svg" alt="Python" width="50px" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/django-original.svg" alt="Django" width="50px" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/figma-icon.svg" alt="Figma" height="50px" /></td>
-    <td width="100px"><img src="https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg" alt="AWS" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg" alt="HTML5" width="50px" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg" alt="CSS3" width="50px" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/javascript-original.svg" alt="JavaScript" width="50px" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/python-original.svg" alt="Python" width="50px" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/django-original.svg" alt="Django" width="50px" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/figma-icon.svg" alt="Figma" height="50px" /></td>
+    <td width="100px" align="center"><img src="https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg" alt="AWS" height="50px" /></td>
   </tr>
   <tr>
     <td align="center">HTML5</td>
@@ -73,11 +73,6 @@
     <td align="center">AWS</td>
   </tr>
 </table>
-
-| ![HTML5](https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg) | ![CSS3](https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg) | ![JavaScript](https://profilinator.rishav.dev/skills-assets/javascript-original.svg) | ![Python](https://profilinator.rishav.dev/skills-assets/python-original.svg) | ![Django](https://profilinator.rishav.dev/skills-assets/django-original.svg) | ![PostgreSQL](https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg) | ![Figma](https://profilinator.rishav.dev/skills-assets/figma-icon.svg) | ![AWS](https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| HTML5 | CSS3 | JavaScript | Python | Django | PostgreSQL | Figma | AWS | 
-
 
 <br />
 
