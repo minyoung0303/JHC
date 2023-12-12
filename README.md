@@ -51,9 +51,9 @@
 
 ## 기술 스택
 
-| ![HTML5](https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg) | ![CSS3](https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg) | ![JavaScript](https://profilinator.rishav.dev/skills-assets/javascript-original.svg) | ![Django](https://profilinator.rishav.dev/skills-assets/django-original.svg) | ![PostgreSQL](https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg) | ![Figma](https://profilinator.rishav.dev/skills-assets/figma-icon.svg) | ![AWS](https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg) | ![Python](https://profilinator.rishav.dev/skills-assets/python-original.svg) |
+| ![HTML5](https://profilinator.rishav.dev/skills-assets/html5-original-wordmark.svg) | ![CSS3](https://profilinator.rishav.dev/skills-assets/css3-original-wordmark.svg) | ![JavaScript](https://profilinator.rishav.dev/skills-assets/javascript-original.svg) | ![Python](https://profilinator.rishav.dev/skills-assets/python-original.svg) | ![Django](https://profilinator.rishav.dev/skills-assets/django-original.svg) | ![PostgreSQL](https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg) | ![Figma](https://profilinator.rishav.dev/skills-assets/figma-icon.svg) | ![AWS](https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| HTML5 | CSS3 | JavaScript | Django | PostgreSQL | Figma | AWS | Python |
+| HTML5 | CSS3 | JavaScript | Python | Django | PostgreSQL | Figma | AWS | 
 
 
 <br />
