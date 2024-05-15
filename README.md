@@ -80,6 +80,36 @@
 
 ## 서비스 화면
 
+1. Login / register
+
+<p align="center">
+  <img src="https://github.com/ANBambi/JHC/assets/137133526/5bf02e60-4929-4329-a97e-d62c7150a048" alt="Login/Register Screenshot 1" width="45%">
+  <img src="https://github.com/ANBambi/JHC/assets/137133526/93eed609-c872-491c-83d9-e46281e17088" alt="Login/Register Screenshot 2" width="45%">
+</p>
+
+
+2. main
+
+![스크린샷 2024-05-15 173303](https://github.com/ANBambi/JHC/assets/137133526/680ee437-6993-44b4-9321-8464d6af9904)
+
+
+3. trade
+
+![스크린샷 2024-05-15 173620](https://github.com/ANBambi/JHC/assets/137133526/2c1c2246-474a-419d-9de3-d69e0be8fe77)
+
+
+4. trade_post
+![스크린샷 2024-05-15 180713](https://github.com/ANBambi/JHC/assets/137133526/ae01ff01-c8cd-4b20-bbe9-b3c40ee8d1b3)
+
+
+6. write
+
+![스크린샷 2024-05-15 180738](https://github.com/ANBambi/JHC/assets/137133526/b87f808b-9edd-4a3f-ba61-adba8bbe83a6)
+
+7. chat page
+
+![image](https://github.com/ANBambi/JHC/assets/137133526/1d49cb77-6097-4606-b0c0-b503891a4e14)
+
 
 </div>
 
