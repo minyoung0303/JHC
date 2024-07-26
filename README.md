@@ -143,7 +143,7 @@
   </tr>
   <tr>
     <td align="center">
-      <a href="https://github.com/chorongfire33" target="_blank">
+      <a href="https://github.com/minyoung0303" target="_blank">
         이민영
       </a>
     </td>
